@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="SegmentShape2D" id=1]
+a = Vector2( 1.88043, 3.12469 )
+b = Vector2( 1.90468, 602.803 )
+
+[sub_resource type="SegmentShape2D" id=2]
+b = Vector2( 1029.43, -0.0615234 )
+
+[node name="PlayerBounds" type="StaticBody2D"]
+collision_layer = 0
+collision_mask = 524288
+
+[node name="LeftWall" type="CollisionShape2D" parent="."]
+position = Vector2( -3.3946, -2.80933 )
+shape = SubResource( 1 )
+one_way_collision_margin = 0.0
+
+[node name="RightWall" type="CollisionShape2D" parent="."]
+position = Vector2( 1023, -2.809 )
+shape = SubResource( 1 )
+
+[node name="TopWall" type="CollisionShape2D" parent="."]
+position = Vector2( -3.04344, -1.17055 )
+shape = SubResource( 2 )
+
+[node name="BottomWall" type="CollisionShape2D" parent="."]
+position = Vector2( -3.043, 601.5 )
+shape = SubResource( 2 )

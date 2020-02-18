@@ -1,0 +1,80 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Test.gd" type="Script" id=1]
+[ext_resource path="res://ParallaxBackground.gd" type="Script" id=2]
+[ext_resource path="res://background.gd" type="Script" id=3]
+[ext_resource path="res://assets/background.png" type="Texture" id=4]
+[ext_resource path="res://sprite.gd" type="Script" id=5]
+[ext_resource path="res://assets/stars-close.png" type="Texture" id=6]
+[ext_resource path="res://assets/stars-far.png" type="Texture" id=7]
+[ext_resource path="res://Enemy.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Laser.tscn" type="PackedScene" id=9]
+[ext_resource path="res://PlayerBounds.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=11]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Camera2D
+
+func _ready():
+	set_process(true)
+	
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[node name="main" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+editor/display_folded = true
+scale = Vector2( 2, 2 )
+transform = Transform2D( 2, 0, 0, 2, 0, 0 )
+script = ExtResource( 2 )
+
+[node name="space" type="ParallaxLayer" parent="ParallaxBackground"]
+editor/display_folded = true
+motion_mirroring = Vector2( 640, 480 )
+script = ExtResource( 3 )
+
+[node name="sprite" type="Sprite" parent="ParallaxBackground/space"]
+position = Vector2( 0, 0.148148 )
+texture = ExtResource( 4 )
+centered = false
+script = ExtResource( 5 )
+
+[node name="close-stars" type="ParallaxLayer" parent="ParallaxBackground"]
+editor/display_folded = true
+motion_scale = Vector2( 0.13, 0.13 )
+motion_mirroring = Vector2( 500, 380 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/close-stars"]
+scale = Vector2( 0.798958, 0.798958 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="far-stars" type="ParallaxLayer" parent="ParallaxBackground"]
+editor/display_folded = true
+motion_scale = Vector2( 0.1, 0.1 )
+motion_mirroring = Vector2( 500, 380 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/far-stars"]
+scale = Vector2( 0.798958, 0.798958 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+script = SubResource( 1 )
+
+[node name="Enemy" parent="." instance=ExtResource( 8 )]
+
+[node name="Laser" parent="." instance=ExtResource( 9 )]
+position = Vector2( 200, 470 )
+
+[node name="PlayerBounds" parent="." instance=ExtResource( 10 )]
+collision_layer = 524288
+collision_mask = 0
+
+[node name="Player" parent="." instance=ExtResource( 11 )]
