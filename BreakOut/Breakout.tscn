@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Breakout.gd" type="Script" id=1]
 [ext_resource path="res://Paddle.gd" type="Script" id=2]
 [ext_resource path="res://Ball.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Life.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Brick.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 62.5, 12.5 )
@@ -26,9 +28,10 @@ margin_bottom = 600.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Paddle" type="KinematicBody2D" parent="."]
+editor/display_folded = true
 position = Vector2( 505.263, 532.263 )
 script = ExtResource( 2 )
-speed = 400
+speed = 500
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle"]
 shape = SubResource( 1 )
@@ -38,6 +41,7 @@ color = Color( 0.0784314, 0.603922, 0.94902, 1 )
 polygon = PoolVector2Array( -62.5, -12.5, 62.5, -12.5, 62.5, 12.5, -62.5, 12.5 )
 
 [node name="Ball" parent="." instance=ExtResource( 3 )]
+angular_damp = 0.0
 
 [node name="Walls" type="Node2D" parent="."]
 editor/display_folded = true
@@ -64,3 +68,13 @@ physics_material_override = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top Wall"]
 shape = SubResource( 4 )
+
+[node name="Lives" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Life" parent="Lives" instance=ExtResource( 4 )]
+visible = false
+
+[node name="Brick" parent="." instance=ExtResource( 5 )]
+position = Vector2( 363, 302 )

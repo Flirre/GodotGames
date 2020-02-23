@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 20, 10 )
+
+[node name="Brick" type="StaticBody2D"]
+position = Vector2( 500, 400 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+offset = Vector2( -20, -10 )
+polygon = PoolVector2Array( 0, 0, 40, 0, 40, 20, 0, 20 )

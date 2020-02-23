@@ -3,18 +3,22 @@ signal dead(ball)
 
 func _draw():
     draw_circle(Vector2(0, 0), 15, Color(255, 255, 255))
-    pass
 
 func _ready():
-	randomize()
-	apply_impulse(Vector2(rand_range(-300,300), rand_range(-300,300)), Vector2(rand_range(-300,300), rand_range(-100,100)))
-	pass
+    randomize()
+    yield( get_tree().create_timer(0.5), "timeout" )
+    ball_bounce()
+
+func ball_bounce():
+     apply_impulse(Vector2(rand_range(-800,800), rand_range(-800,800)), Vector2(rand_range(-800,800), rand_range(-800,800)))
 
 func _process(delta):
-	ball_outside_lower_boundary()
-	pass
-	
+    ball_outside_lower_boundary()
+    print(position)
+    
 func ball_outside_lower_boundary():
-	if(self.position.y > 500):
-		emit_signal("dead", self)
-	
+    if(position.y > 700):
+        emit_signal("dead", self)
+        self.queue_free()
+        print('dead')
+    
