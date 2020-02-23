@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Breakout.gd" type="Script" id=1]
 [ext_resource path="res://Paddle.gd" type="Script" id=2]
 [ext_resource path="res://Ball.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Life.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Brick.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Bricks.gd" type="Script" id=5]
+[ext_resource path="res://Brick.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Brick.gd" type="Script" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 62.5, 12.5 )
@@ -21,6 +23,7 @@ extents = Vector2( 10, 512 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
+lives = 5
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 1024.0
@@ -31,7 +34,7 @@ color = Color( 0, 0, 0, 1 )
 editor/display_folded = true
 position = Vector2( 505.263, 532.263 )
 script = ExtResource( 2 )
-speed = 500
+speed = 600
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Paddle"]
 shape = SubResource( 1 )
@@ -70,11 +73,26 @@ physics_material_override = SubResource( 2 )
 shape = SubResource( 4 )
 
 [node name="Lives" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="Life" parent="Lives" instance=ExtResource( 4 )]
 visible = false
 
-[node name="Brick" parent="." instance=ExtResource( 5 )]
-position = Vector2( 363, 302 )
+[node name="Bricks" type="Node2D" parent="."]
+editor/display_folded = true
+script = ExtResource( 5 )
+
+[node name="Brick" parent="Bricks" instance=ExtResource( 6 )]
+position = Vector2( -104, -15 )
+script = ExtResource( 7 )
+
+[node name="Points" type="Label" parent="."]
+margin_left = 884.0
+margin_top = 1.0
+margin_right = 1023.0
+margin_bottom = 37.0
+text = "Points: 0"
+valign = 1
+uppercase = true

@@ -7,12 +7,14 @@ friction = 0.0
 bounce = 1.0
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 16.0
+radius = 12.0
 
 [node name="Ball" type="RigidBody2D"]
 position = Vector2( 500, 400 )
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
+contacts_reported = 10
+contact_monitor = true
 linear_damp = 0.0
 script = ExtResource( 1 )
 

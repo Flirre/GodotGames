@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 20, 10 )
+extents = Vector2( 19, 8 )
 
 [node name="Brick" type="StaticBody2D"]
 position = Vector2( 500, 400 )
