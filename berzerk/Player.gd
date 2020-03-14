@@ -3,7 +3,12 @@ export (int) var speed
 var game_screen_size
 var player_width
 var player_height
+var player_direction
+enum DIRECTIONS {UP, RIGHT, DOWN, LEFT}
 var velocity: Vector2
+export (PackedScene) var Laser 
+signal shoot
+
 
 func _ready():
     game_screen_size = get_viewport_rect().size
@@ -21,14 +26,18 @@ func get_input():
     velocity = Vector2(0,0)
     if(Input.is_action_pressed("move_left")):
         velocity.x = -speed
+        player_direction = DIRECTIONS.LEFT
     if(Input.is_action_pressed("move_right")):
         velocity.x = speed
+        player_direction = DIRECTIONS.RIGHT
     if(Input.is_action_pressed("move_up")):
         velocity.y = -speed
+        player_direction = DIRECTIONS.UP
     if(Input.is_action_pressed("move_down")):
         velocity.y = speed        
+        player_direction = DIRECTIONS.DOWN
     if(Input.is_action_pressed("shoot")):
-        self.activate_item()
+        shoot()
 
   #Quit on Q press      
     if(Input.is_key_pressed(KEY_Q)):
@@ -39,5 +48,5 @@ func check_boundaries():
     self.position.y = clamp(self.position.y, 0 + player_height, game_screen_size.y-player_height)
 
 
-func activate_item():
-    print('space pressed')
+func shoot():
+    emit_signal("shoot", Laser, global_position, player_direction)
