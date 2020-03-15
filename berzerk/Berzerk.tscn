@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://background.png" type="Texture" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://PlayerLaser.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Berzerk.gd" type="Script" id=4]
+[ext_resource path="res://EnemyRobot.tscn" type="PackedScene" id=5]
 
 [node name="Map1" type="Node2D"]
 script = ExtResource( 4 )
@@ -20,4 +21,6 @@ __meta__ = {
 collision_layer = 2
 collision_mask = 21
 Laser = ExtResource( 3 )
+
+[node name="EnemyRobot" parent="." instance=ExtResource( 5 )]
 [connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]
