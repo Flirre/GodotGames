@@ -7,6 +7,7 @@ var player_direction
 enum DIRECTIONS {UP, RIGHT, DOWN, LEFT}
 var velocity: Vector2
 export (PackedScene) var Laser 
+onready var shootTimer = get_node("ShootTimer")
 signal shoot
 
 
@@ -49,4 +50,6 @@ func check_boundaries():
 
 
 func shoot():
-    emit_signal("shoot", Laser, global_position, player_direction)
+    if shootTimer.time_left == 0:
+        emit_signal("shoot", Laser, global_position, player_direction)
+        shootTimer.start()
