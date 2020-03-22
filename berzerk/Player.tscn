@@ -1,21 +1,40 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://Player.png" type="Texture" id=2]
+[ext_resource path="res://PlayerStateMachine.gd" type="Script" id=3]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 6, 14 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
 region = Rect2( 6, 0, 6, 14 )
 
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 12, 0, 6, 14 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 18, 0, 6, 14 )
+
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"frames": [ SubResource( 1 ) ],
 "loop": true,
-"name": "default",
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": true,
+"name": "shooting",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "running",
 "speed": 5.0
 } ]
 
@@ -31,6 +50,7 @@ speed = 100
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -0.142471, 0.102234 )
 frames = SubResource( 3 )
+animation = "running"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.142471, 0.102234 )
@@ -38,3 +58,6 @@ shape = SubResource( 4 )
 
 [node name="ShootTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="StateMachine" type="Node2D" parent="."]
+script = ExtResource( 3 )

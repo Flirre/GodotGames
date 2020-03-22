@@ -6,21 +6,24 @@ var player_height
 var player_direction
 enum DIRECTIONS {UP, RIGHT, DOWN, LEFT}
 var velocity: Vector2
+var shooting: bool
 export (PackedScene) var Laser 
 onready var shootTimer = get_node("ShootTimer")
+onready var animatedSprite = get_node("AnimatedSprite")
 signal shoot
-
 
 func _ready():
     game_screen_size = get_viewport_rect().size
     player_width = $CollisionShape2D.shape.radius
     player_height = $CollisionShape2D.shape.height
+    shooting = false
     set_process(true)
     pass
     
 func _physics_process(delta):
     velocity = move_and_slide(velocity)
-    get_input()
+    if shootTimer.time_left == 0:
+        shooting = false
     check_boundaries()
 
 func get_input():
@@ -28,9 +31,11 @@ func get_input():
     if(Input.is_action_pressed("move_left")):
         velocity.x = -speed
         player_direction = DIRECTIONS.LEFT
+        animatedSprite.set_flip_h(true)
     if(Input.is_action_pressed("move_right")):
         velocity.x = speed
         player_direction = DIRECTIONS.RIGHT
+        animatedSprite.set_flip_h(false)
     if(Input.is_action_pressed("move_up")):
         velocity.y = -speed
         player_direction = DIRECTIONS.UP
@@ -52,4 +57,5 @@ func check_boundaries():
 func shoot():
     if shootTimer.time_left == 0:
         emit_signal("shoot", Laser, global_position, player_direction)
+        shooting = true
         shootTimer.start()
