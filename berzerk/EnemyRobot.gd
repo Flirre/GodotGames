@@ -1,22 +1,19 @@
 extends KinematicBody2D
 
-export (int) var health
-export (int) var weight
+var direction
+enum DIRECTIONS {UP, RIGHT, DOWN, LEFT}
+onready var entity = get_node("entity")
+
+export (PackedScene) var Laser 
+signal shoot
 
 func _ready() -> void:
-    $SpriteTimer.connect("timeout", self, "_timeout")
-    
-    
-func _timeout():
-    $AnimatedSprite.material.set_shader_param("white", false)
+    direction = DIRECTIONS.DOWN
+    entity.shooting = false
+    entity.shootTimer.connect("timeout", self, "shoot")
 
-func take_damage(damage) -> void:
-    $AnimatedSprite.material.set_shader_param("white", true)
-    $SpriteTimer.start()
-    health -= damage
-    if health <= 0:
-        get_parent().remove_child(self)
-
-func knockback(knockback_direction, knockback_strength) -> void:
-    print(knockback_direction)
-    move_and_slide(-knockback_direction.normalized() * knockback_strength / weight)
+func shoot():
+    if entity.shootTimer.time_left == 0:
+        emit_signal("shoot", Laser, global_position, direction)
+        entity.shooting = true
+        entity.shootTimer.start()

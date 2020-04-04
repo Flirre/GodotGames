@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://entity.gd" type="Script" id=1]
+
+[node name="entity" type="Node"]
+script = ExtResource( 1 )
+speed = 100
+health = 15
+weight = 1
+
+[node name="ShootTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="SpriteTimer" type="Timer" parent="."]
+wait_time = 0.08
+one_shot = true

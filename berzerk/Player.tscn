@@ -1,63 +1,86 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
-[ext_resource path="res://Player.png" type="Texture" id=2]
-[ext_resource path="res://PlayerStateMachine.gd" type="Script" id=3]
+[ext_resource path="res://PlayerStateMachine.gd" type="Script" id=2]
+[ext_resource path="res://entity.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player.png" type="Texture" id=4]
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 6, 14 )
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 4.0
+height = 7.0
 
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 2 )
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+uniform bool white;
+
+void fragment()
+{
+	vec4 color = texture(TEXTURE, UV);
+	
+	if (white)
+	{
+		COLOR = vec4(1, 1, 1, color.a);
+	}
+	else
+	{
+		COLOR = color;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/white = null
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 4 )
 region = Rect2( 6, 0, 6, 14 )
 
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 4 )
 region = Rect2( 12, 0, 6, 14 )
 
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
 region = Rect2( 18, 0, 6, 14 )
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 6, 14 )
+
+[sub_resource type="SpriteFrames" id=8]
 animations = [ {
-"frames": [ SubResource( 1 ) ],
-"loop": true,
-"name": "idle",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 5 ) ],
+"frames": [ SubResource( 4 ) ],
 "loop": true,
 "name": "shooting",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 7 ), SubResource( 8 ) ],
+"frames": [ SubResource( 5 ), SubResource( 6 ) ],
 "loop": true,
 "name": "running",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 7 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
 } ]
-
-[sub_resource type="CapsuleShape2D" id=4]
-radius = 4.0
-height = 7.0
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
 position = Vector2( 24.6273, 125.917 )
+collision_layer = 2
 script = ExtResource( 1 )
-speed = 100
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( -0.142471, 0.102234 )
-frames = SubResource( 3 )
-animation = "running"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.142471, 0.102234 )
-shape = SubResource( 4 )
-
-[node name="ShootTimer" type="Timer" parent="."]
-one_shot = true
+shape = SubResource( 1 )
 
 [node name="StateMachine" type="Node2D" parent="."]
-script = ExtResource( 3 )
+script = ExtResource( 2 )
+
+[node name="entity" parent="." instance=ExtResource( 3 )]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 3 )
+position = Vector2( -0.1425, 0.101997 )
+frames = SubResource( 8 )
+animation = "running"

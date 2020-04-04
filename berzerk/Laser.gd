@@ -28,12 +28,5 @@ func start(_position, _direction):
 func _process(delta):
     position += velocity*delta
 
-func _on_PlayerLaser_body_entered(body):
-    disappear()
-    if(body.has_method("take_damage")):
-        body.take_damage(damage)
-    if(body.has_method("knockback")):
-        body.knockback(self.transform.origin - body.transform.origin, knockback)
-
 func disappear():
     queue_free()
