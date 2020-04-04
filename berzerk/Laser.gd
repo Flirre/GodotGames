@@ -1,6 +1,7 @@
 extends Area2D
 export (int) var speed
 export (int) var damage
+export (int) var knockback
 
 var velocity = Vector2()
 var direction = Vector2()
@@ -32,7 +33,7 @@ func _on_PlayerLaser_body_entered(body):
     if(body.has_method("take_damage")):
         body.take_damage(damage)
     if(body.has_method("knockback")):
-        body.knockback(self.transform.origin - body.transform.origin)
+        body.knockback(self.transform.origin - body.transform.origin, knockback)
 
 func disappear():
     queue_free()

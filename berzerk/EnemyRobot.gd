@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 export (int) var health
-var knockback_strength = 150
+export (int) var weight
 
 func _ready() -> void:
     $SpriteTimer.connect("timeout", self, "_timeout")
@@ -17,6 +17,6 @@ func take_damage(damage) -> void:
     if health <= 0:
         get_parent().remove_child(self)
 
-func knockback(knockback_direction) -> void:
+func knockback(knockback_direction, knockback_strength) -> void:
     print(knockback_direction)
-    move_and_slide(-knockback_direction.normalized() * knockback_strength)
+    move_and_slide(-knockback_direction.normalized() * knockback_strength / weight)

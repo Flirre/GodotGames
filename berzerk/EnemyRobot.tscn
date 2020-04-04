@@ -50,6 +50,8 @@ position = Vector2( 113.729, 66.8992 )
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 1 )
+health = 30
+weight = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
