@@ -7,7 +7,7 @@
 radius = 4.0
 height = 8.0
 
-[sub_resource type="Shader" id=5]
+[sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
 uniform bool white;
 
@@ -25,21 +25,21 @@ void fragment()
 	}
 }"
 
-[sub_resource type="ShaderMaterial" id=6]
-shader = SubResource( 5 )
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
 shader_param/white = null
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 8, 14 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
 region = Rect2( 8, 0, 8, 14 )
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ SubResource( 2 ), SubResource( 3 ) ],
+"frames": [ SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -55,8 +55,8 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-material = SubResource( 6 )
-frames = SubResource( 4 )
+material = SubResource( 3 )
+frames = SubResource( 6 )
 
 [node name="SpriteTimer" type="Timer" parent="."]
 wait_time = 0.08
