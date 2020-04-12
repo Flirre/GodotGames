@@ -13,22 +13,22 @@ onready var animatedSprite = get_parent().get_node("AnimatedSprite")
 onready var kinematicBody = get_parent()
 
 func _ready() -> void:
-    spriteTimer.connect("timeout", self, "_timeout")
+	spriteTimer.connect("timeout", self, "_timeout")
 
 func _timeout():
-    animatedSprite.material.set_shader_param("white", false)
+	animatedSprite.material.set_shader_param("white", false)
 
 func take_damage(damage) -> void:
-    animatedSprite.material.set_shader_param("white", true)
-    spriteTimer.start()
-    health -= damage
-    if health <= 0:
-        kinematicBody.get_parent().remove_child(kinematicBody)
+	animatedSprite.material.set_shader_param("white", true)
+	spriteTimer.start()
+	health -= damage
+	if health <= 0:
+		kinematicBody.get_parent().remove_child(kinematicBody)
 
 func knockback(knockback_direction, knockback_strength) -> void:
-    kinematicBody.move_and_slide(-knockback_direction.normalized() * knockback_strength / weight)
-    
+	kinematicBody.move_and_slide(-knockback_direction.normalized() * knockback_strength / weight)
+	
 func _physics_process(delta):
-    velocity = kinematicBody.move_and_slide(velocity)
-    if shootTimer.time_left == 0:
-        shooting = false
+	velocity = kinematicBody.move_and_slide(velocity)
+	if shootTimer.time_left == 0:
+		shooting = false

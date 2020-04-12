@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://EnemyRobot.gd" type="Script" id=1]
 [ext_resource path="res://Enemy.png" type="Texture" id=2]
@@ -46,6 +46,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="CircleShape2D" id=7]
+radius = 60.0
+
 [node name="EnemyRobot" type="KinematicBody2D"]
 position = Vector2( 113.729, 66.8992 )
 collision_layer = 4
@@ -60,3 +63,15 @@ frames = SubResource( 6 )
 
 [node name="entity" parent="." instance=ExtResource( 3 )]
 health = 35
+
+[node name="FOV" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FOV"]
+shape = SubResource( 7 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+cast_to = Vector2( 0, 0 )
+[connection signal="body_entered" from="FOV" to="." method="_on_FOV_body_entered"]
+[connection signal="body_exited" from="FOV" to="." method="_on_FOV_body_exited"]
