@@ -1,0 +1,11 @@
+* Berserc
+** Background
+A game inspired by [[https://www.wikiwand.com/en/Berzerk_(video_game)][Berzerk (1980)]].
+** Theme
+Theme inspiration from [[https://itch.io/jam/godot-wild-jam-19][Godot Wild Jam 19]] where the theme was Discovery.
+
+The theme was incorporated by hiding and showing the walls of the map, using a pulsating shader.
+
+The original idea was to have a fog-of-war style exploration of the map enabled by a shader.
+** Preview
+[[./readme.gif]]
