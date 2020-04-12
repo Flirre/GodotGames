@@ -48,6 +48,10 @@ Laser = ExtResource( 4 )
 position = Vector2( 152.598, 171.772 )
 Laser = ExtResource( 6 )
 
+[node name="EnemyRobot2" parent="Map1" instance=ExtResource( 5 )]
+position = Vector2( 166.22, 24.0758 )
+Laser = ExtResource( 6 )
+
 [node name="Walls" type="Node2D" parent="Map1"]
 
 [node name="Wall" parent="Map1/Walls" instance=ExtResource( 8 )]
@@ -99,3 +103,4 @@ position = Vector2( 194.276, 83.8568 )
 scale = Vector2( 3.82482, 0.125 )
 [connection signal="shoot" from="Map1/Player" to="Map1" method="_on_Player_shoot"]
 [connection signal="shoot" from="Map1/EnemyRobot" to="Map1" method="_on_EnemyRobot_shoot"]
+[connection signal="shoot" from="Map1/EnemyRobot2" to="Map1" method="_on_EnemyRobot_shoot"]

@@ -9,7 +9,7 @@ onready var entity = get_node("entity")
 onready var player = get_parent().get_node("Player")
 onready var ray = get_node("RayCast2D")
 
-export (PackedScene) var Laser 
+export (PackedScene) var Laser
 signal shoot
 
 func _ready() -> void:
@@ -31,7 +31,7 @@ func shoot():
 		calculateDirection()
 		emit_signal("shoot", Laser, global_position, direction)
 	entity.shootTimer.start()
-	
+
 func calculateDirection():
 	shot = (self.position - player.position).normalized()
 	if shot.x > shot.y:
@@ -47,7 +47,7 @@ func calculateDirection():
 			direction = 2
 		Vector2(1,0):
 			direction = 3
-	
+
 
 func _on_FOV_body_entered(body):
 	ray.enabled = true
@@ -55,4 +55,3 @@ func _on_FOV_body_entered(body):
 func _on_FOV_body_exited(body):
 	ray.enabled = false
 	entity.shooting = false
-
