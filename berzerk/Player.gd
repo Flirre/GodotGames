@@ -6,6 +6,7 @@ var player_height
 var player_direction
 
 onready var entity = get_node("entity")
+onready var game = get_parent().get_parent()
 
 enum DIRECTIONS {UP, RIGHT, DOWN, LEFT}
 var velocity: Vector2
@@ -13,6 +14,7 @@ var velocity: Vector2
 export (PackedScene) var Laser 
 
 signal shoot
+signal game_over
 
 func _ready():
 	game_screen_size = get_viewport_rect().size
@@ -24,6 +26,8 @@ func _ready():
 func _physics_process(delta):
 	velocity = move_and_slide(velocity)
 	check_boundaries()
+	if(entity.health <= 0):
+		game_over()
 
 func get_input():
 	velocity = Vector2(0,0)
@@ -57,3 +61,7 @@ func shoot():
 		emit_signal("shoot", Laser, global_position, player_direction)
 		entity.shooting = true
 		entity.shootTimer.start()
+		
+func game_over():
+	emit_signal("game_over")
+	print('gameover')
