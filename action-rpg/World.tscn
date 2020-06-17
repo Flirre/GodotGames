@@ -48,3 +48,19 @@ skew = 4.37114e-08
 [node name="StaticBody2D10" parent="." instance=ExtResource( 1 )]
 position = Vector2( 120, 160 )
 skew = 4.37114e-08
+
+[node name="StaticBody2D11" parent="." instance=ExtResource( 1 )]
+position = Vector2( 96, 152 )
+skew = 4.37114e-08
+
+[node name="StaticBody2D12" parent="." instance=ExtResource( 1 )]
+position = Vector2( 72, 136 )
+skew = 4.37114e-08
+
+[node name="StaticBody2D13" parent="." instance=ExtResource( 1 )]
+position = Vector2( 152, 168 )
+skew = 4.37114e-08
+
+[node name="StaticBody2D14" parent="." instance=ExtResource( 1 )]
+position = Vector2( 176, 160 )
+skew = 4.37114e-08
