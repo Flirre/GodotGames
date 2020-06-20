@@ -17,7 +17,7 @@ func _physics_process(delta):
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
-	
+
 	if(input_vector != Vector2.ZERO):
 		animation_tree.set("parameters/idle/blend_position", input_vector)
 		animation_tree.set("parameters/run/blend_position", input_vector)
@@ -26,5 +26,5 @@ func _physics_process(delta):
 	else:
 		animation_state.travel("idle")
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-		
+
 	velocity = move_and_slide(velocity)
