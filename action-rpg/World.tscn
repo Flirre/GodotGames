@@ -5,7 +5,7 @@
 [ext_resource path="res://World/GrassBackground.png" type="Texture" id=3]
 [ext_resource path="res://World/DirtTileset.png" type="Texture" id=4]
 [ext_resource path="res://World/CliffTileset.png" type="Texture" id=5]
-[ext_resource path="res://Grass.tscn" type="PackedScene" id=6]
+[ext_resource path="res://World/Grass.tscn" type="PackedScene" id=6]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -530,6 +530,7 @@ region_rect = Rect2( 0, 0, 320, 180 )
 skew = 4.37114e-08
 tile_set = SubResource( 52 )
 cell_size = Vector2( 32, 32 )
+collision_mask = 0
 format = 1
 tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 1, -65535, 0, 1, -65534, 0, 2, 65535, 0, 131072, 0, 0, 131073, 1, 0, 131073, 2, 0, 65543, 8, 0, 0, 9, 0, 2, 65538, 0, 65539, 65544, 0, 131072, 65545, 0, 131074, 131074, 0, 65539, 131077, 0, 3, 196610, 0, 196612, 196611, 0, 196609, 196612, 0, 6, 196613, 0, 131079, 262148, 0, 65536, 262149, 0, 65538, 262152, 0, 0, 262153, 0, 1, 262154, 0, 2, 327684, 0, 65536, 327685, 0, 65538, 327688, 0, 65536, 327689, 0, 65537, 327690, 0, 65538, 393220, 0, 131072, 393221, 0, 131074, 393224, 0, 131072, 393225, 0, 131073, 393226, 0, 131074 )
 
@@ -537,6 +538,7 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 1, -65535, 0, 1, -65534, 0, 2, 65
 skew = 4.37114e-08
 tile_set = SubResource( 53 )
 cell_size = Vector2( 16, 16 )
+collision_mask = 0
 format = 1
 tile_data = PoolIntArray( -65530, 0, 0, -65529, 0, 2, -65523, 0, 0, -65522, 0, 2, 6, 0, 65536, 7, 0, 65538, 13, 0, 65536, 14, 0, 65538, 65542, 0, 65536, 65543, 0, 65538, 65549, 0, 65536, 65550, 0, 65538, 131078, 0, 65536, 131079, 0, 131077, 131080, 0, 1, 131081, 0, 1, 131082, 0, 1, 131083, 0, 1, 131084, 0, 1, 131085, 0, 131078, 131086, 0, 65538, 196614, 0, 131072, 196615, 0, 131073, 196616, 0, 131073, 196617, 0, 131073, 196618, 0, 131073, 196619, 0, 131073, 196620, 0, 131073, 196621, 0, 65542, 196622, 0, 65538, 262157, 0, 65536, 262158, 0, 65538, 327693, 0, 65536, 327694, 0, 65538, 393229, 0, 65536, 393230, 0, 131077, 393231, 0, 1, 393232, 0, 1, 393233, 0, 1, 393234, 0, 1, 393235, 0, 1, 393236, 0, 2, 524287, 0, 0, 458752, 0, 1, 458753, 0, 1, 458754, 0, 1, 458755, 0, 2, 458765, 0, 131072, 458766, 0, 65542, 458767, 0, 65541, 458768, 0, 131073, 458769, 0, 131073, 458770, 0, 131073, 458771, 0, 131073, 458772, 0, 131074, 589823, 0, 131072, 524288, 0, 131073, 524289, 0, 131073, 524290, 0, 65542, 524291, 0, 65538, 524302, 0, 65536, 524303, 0, 65538, 589826, 0, 65536, 589827, 0, 65538, 589838, 0, 65536, 589839, 0, 65538, 655362, 0, 65536, 655363, 0, 65538, 655374, 0, 65536, 655375, 0, 65538, 655379, 0, 0, 655380, 0, 2, 720898, 0, 131072, 720899, 0, 131074, 720910, 0, 131072, 720911, 0, 131074, 720915, 0, 131072, 720916, 0, 131074 )
 
@@ -611,28 +613,89 @@ skew = 4.37114e-08
 [node name="Grass" type="YSort" parent="YSort"]
 
 [node name="Grass" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 104, 72 )
+position = Vector2( 168, 88 )
+skew = 4.37114e-08
 
 [node name="Grass2" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 288, 72 )
+position = Vector2( 168, 104 )
+skew = 4.37114e-08
 
 [node name="Grass3" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 152, 112 )
+position = Vector2( 168, 120 )
+skew = 4.37114e-08
 
 [node name="Grass4" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 240, 0 )
+position = Vector2( 152, 104 )
+skew = 4.37114e-08
 
 [node name="Grass5" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 240, 16 )
+position = Vector2( 152, 120 )
+skew = 4.37114e-08
+
+[node name="Grass20" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 72, 152 )
+skew = 4.37114e-08
+
+[node name="Grass21" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 0, 96 )
+skew = 4.37114e-08
 
 [node name="Grass6" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 240, 32 )
+position = Vector2( 240, 0 )
+skew = 4.37114e-08
 
 [node name="Grass7" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 240, 48 )
+position = Vector2( 240, 16 )
+skew = 4.37114e-08
 
 [node name="Grass8" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 240, 64 )
+position = Vector2( 240, 32 )
+skew = 4.37114e-08
 
 [node name="Grass9" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 240, 48 )
+skew = 4.37114e-08
+
+[node name="Grass10" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 240, 64 )
+skew = 4.37114e-08
+
+[node name="Grass11" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 240, 80 )
+skew = 4.37114e-08
+
+[node name="Grass12" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 192, 64 )
+skew = 4.37114e-08
+
+[node name="Grass13" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 192, 80 )
+skew = 4.37114e-08
+
+[node name="Grass14" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 192, 96 )
+skew = 4.37114e-08
+
+[node name="Grass15" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 192, 112 )
+skew = 4.37114e-08
+
+[node name="Grass16" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 288, 64 )
+skew = 4.37114e-08
+
+[node name="Grass17" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 288, 80 )
+skew = 4.37114e-08
+
+[node name="Grass18" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 304, 64 )
+skew = 4.37114e-08
+
+[node name="Grass19" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 304, 80 )
+skew = 4.37114e-08
+
+[node name="Grass22" parent="YSort/Grass" instance=ExtResource( 6 )]
+position = Vector2( 168, 72 )
+skew = 4.37114e-08
