@@ -522,13 +522,11 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="Background" type="Sprite" parent="."]
 position = Vector2( 160, 90 )
-skew = 4.37114e-08
 texture = ExtResource( 3 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 320, 180 )
 
 [node name="DirtCliffTileMap" type="TileMap" parent="."]
-skew = 4.37114e-08
 tile_set = SubResource( 52 )
 cell_size = Vector2( 32, 32 )
 collision_mask = 0
@@ -536,7 +534,6 @@ format = 1
 tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 1, -65535, 0, 1, -65534, 0, 2, 65535, 0, 131072, 0, 0, 131073, 1, 0, 131073, 2, 0, 65543, 8, 0, 0, 9, 0, 2, 65538, 0, 65539, 65544, 0, 131072, 65545, 0, 131074, 131074, 0, 65539, 131077, 0, 3, 196610, 0, 196612, 196611, 0, 196609, 196612, 0, 6, 196613, 0, 131079, 262148, 0, 65536, 262149, 0, 65538, 262152, 0, 0, 262153, 0, 1, 262154, 0, 2, 327684, 0, 65536, 327685, 0, 65538, 327688, 0, 65536, 327689, 0, 65537, 327690, 0, 65538, 393220, 0, 131072, 393221, 0, 131074, 393224, 0, 131072, 393225, 0, 131073, 393226, 0, 131074 )
 
 [node name="DirtPathTileMap" type="TileMap" parent="."]
-skew = 4.37114e-08
 tile_set = SubResource( 53 )
 cell_size = Vector2( 16, 16 )
 collision_mask = 0
@@ -547,162 +544,127 @@ tile_data = PoolIntArray( -65530, 0, 0, -65529, 0, 2, -65523, 0, 0, -65522, 0, 2
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 128, 32 )
-skew = 4.37114e-08
 
 [node name="Bushes" type="YSort" parent="YSort"]
 
 [node name="StaticBody2D" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 16, 32 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D2" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 48, 104 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D15" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 32, 80 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D16" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 24, 56 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D3" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 144, 80 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D4" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 176, 16 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D5" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 272, 80 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D6" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 208, 160 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D7" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 16, 160 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D8" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 296, 32 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D11" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 104, 160 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D13" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 160, 160 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D17" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 280, 176 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D14" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 64, 0 )
-skew = 4.37114e-08
 
 [node name="StaticBody2D12" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 80, 136 )
-skew = 4.37114e-08
 
 [node name="Grass" type="YSort" parent="YSort"]
 
 [node name="Grass" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 168, 88 )
-skew = 4.37114e-08
 
 [node name="Grass2" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 168, 104 )
-skew = 4.37114e-08
 
 [node name="Grass3" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 168, 120 )
-skew = 4.37114e-08
 
 [node name="Grass4" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 152, 104 )
-skew = 4.37114e-08
 
 [node name="Grass5" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 152, 120 )
-skew = 4.37114e-08
 
 [node name="Grass20" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 72, 152 )
-skew = 4.37114e-08
 
 [node name="Grass21" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 0, 96 )
-skew = 4.37114e-08
 
 [node name="Grass6" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 240, 0 )
-skew = 4.37114e-08
 
 [node name="Grass7" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 240, 16 )
-skew = 4.37114e-08
 
 [node name="Grass8" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 240, 32 )
-skew = 4.37114e-08
 
 [node name="Grass9" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 240, 48 )
-skew = 4.37114e-08
 
 [node name="Grass10" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 240, 64 )
-skew = 4.37114e-08
 
 [node name="Grass11" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 240, 80 )
-skew = 4.37114e-08
 
 [node name="Grass12" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 192, 64 )
-skew = 4.37114e-08
 
 [node name="Grass13" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 192, 80 )
-skew = 4.37114e-08
 
 [node name="Grass14" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 192, 96 )
-skew = 4.37114e-08
 
 [node name="Grass15" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 192, 112 )
-skew = 4.37114e-08
 
 [node name="Grass16" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 288, 64 )
-skew = 4.37114e-08
 
 [node name="Grass17" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 288, 80 )
-skew = 4.37114e-08
 
 [node name="Grass18" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 304, 64 )
-skew = 4.37114e-08
 
 [node name="Grass19" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 304, 80 )
-skew = 4.37114e-08
 
 [node name="Grass22" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 168, 72 )
-skew = 4.37114e-08
 
 [node name="Bat" parent="YSort" instance=ExtResource( 7 )]
 position = Vector2( 224, 24 )
+
+[node name="Bat3" parent="YSort" instance=ExtResource( 7 )]
+position = Vector2( 40, 144 )
 
 [node name="Bat2" parent="YSort" instance=ExtResource( 7 )]
 position = Vector2( 224, 112 )
