@@ -15,11 +15,13 @@ onready var animation_player = $AnimationPlayer
 onready var animation_tree = $AnimationTree
 onready var animation_state = animation_tree.get("parameters/playback")
 onready var sword_hitbox = $HitboxPivot/SwordHitbox
+onready var hurtbox = $Hurtbox
+var stats = PlayerStats
 
 func _ready():
 	animation_tree.active = true
 	sword_hitbox.knockback_vector = roll_vector
-
+	stats.connect("no_health", self, "queue_free")
 
 func _physics_process(delta):
 	match state:
@@ -51,16 +53,16 @@ func move_state(delta):
 	else:
 		animation_state.travel("idle")
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-		
+
 	move()
 
 	if Input.is_action_just_pressed("roll"):
 		state = ROLL
-		
+
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
 
-func roll_state(delta):
+func roll_state(_delta):
 	velocity = roll_vector * ROLL_SPEED
 	animation_state.travel("roll")
 	move()
@@ -77,3 +79,8 @@ func roll_animation_finished():
 
 func attack_animation_finished():
 	state = MOVE
+
+func _on_Hurtbox_area_entered(area):
+	stats.health -= 1
+	hurtbox.start_invincibility(0.5)
+	hurtbox._create_hit_effect()

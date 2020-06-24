@@ -18,6 +18,10 @@ _global_script_class_icons={
 config/name="action-rpg"
 run/main_scene="res://World.tscn"
 
+[autoload]
+
+PlayerStats="*res://Player/PlayerStats.tscn"
+
 [display]
 
 window/size/width=320
