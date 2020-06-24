@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://World/CliffTileset.png" type="Texture" id=5]
 [ext_resource path="res://World/Grass.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/HealthUI.tscn" type="PackedScene" id=8]
+[ext_resource path="res://World/Tree.tscn" type="PackedScene" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -568,9 +570,6 @@ position = Vector2( 176, 16 )
 [node name="StaticBody2D5" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 272, 80 )
 
-[node name="StaticBody2D6" parent="YSort/Bushes" instance=ExtResource( 1 )]
-position = Vector2( 208, 160 )
-
 [node name="StaticBody2D7" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 16, 160 )
 
@@ -660,6 +659,23 @@ position = Vector2( 304, 80 )
 [node name="Grass22" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 168, 72 )
 
+[node name="Trees" type="YSort" parent="YSort"]
+
+[node name="Tree" parent="YSort/Trees" instance=ExtResource( 9 )]
+position = Vector2( 144, 16 )
+
+[node name="Tree6" parent="YSort/Trees" instance=ExtResource( 9 )]
+position = Vector2( 208, 160 )
+
+[node name="Tree2" parent="YSort/Trees" instance=ExtResource( 9 )]
+position = Vector2( 112, 80 )
+
+[node name="Tree3" parent="YSort/Trees" instance=ExtResource( 9 )]
+position = Vector2( 48, 48 )
+
+[node name="Tree4" parent="YSort/Trees" instance=ExtResource( 9 )]
+position = Vector2( 112, 144 )
+
 [node name="Bat" parent="YSort" instance=ExtResource( 7 )]
 position = Vector2( 224, 24 )
 
@@ -668,3 +684,9 @@ position = Vector2( 40, 144 )
 
 [node name="Bat2" parent="YSort" instance=ExtResource( 7 )]
 position = Vector2( 224, 112 )
+
+[node name="HealthUI" parent="." instance=ExtResource( 8 )]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 64.0
+margin_bottom = 16.0
