@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name Hurtbox
+
 const HitEffect = preload("res://Effects/HitEffect.tscn")
 
 var invincible = false setget set_invincible

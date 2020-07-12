@@ -6,12 +6,12 @@ var max_hearts = 4 setget set_max_hearts
 onready var heart_ui_full = $HeartUIFull
 onready var heart_ui_empty = $HeartUIEmpty
 
-func set_hearts(value):
+func set_hearts(value: int):
 	hearts = clamp(value, 0, max_hearts)
 	if heart_ui_full:
 		heart_ui_full.rect_size.x = hearts * 15
 
-func set_max_hearts(value):
+func set_max_hearts(value: int):
 	max_hearts = max(value, 1)
 	self.hearts = min(hearts, max_hearts)
 	if heart_ui_empty:

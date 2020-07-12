@@ -19,6 +19,7 @@ onready var sprite = $AnimatedSprite
 onready var hurtbox = $Hurtbox
 onready var soft_collision = $SoftCollision
 onready var wander_controller = $WanderController
+onready var animation_player = $AnimationPlayer
 
 func _ready():
 	state = pick_random_state([WANDER, IDLE])
@@ -54,7 +55,7 @@ func _physics_process(delta):
 		velocity += soft_collision.get_push_vector() * delta * 300
 	velocity = move_and_slide(velocity)
 
-func accelerate_towards_point(point, delta):
+func accelerate_towards_point(point: Vector2, delta):
 	var target_position = global_position.direction_to(point)
 	velocity = velocity.move_toward(target_position * MAX_SPEED, ACCELERATION * delta)
 	sprite.flip_h = velocity.x < 0
@@ -71,14 +72,22 @@ func pick_random_state(state_list: Array):
 	state_list.shuffle()
 	return state_list.pop_front()
 
-func _on_Hurtbox_area_entered(area):
+func _on_Hurtbox_area_entered(area: Hitbox):
 	stats.health -= area.damage
 	knockback = area.knockback_vector * 125
 	hurtbox._create_hit_effect()
-
+	hurtbox.start_invincibility(0.3)
 
 func _on_Stats_no_health():
 	queue_free()
 	var enemyDeathEffect = EnemyDeathEffect.instance()
 	get_parent().add_child(enemyDeathEffect)
 	enemyDeathEffect.global_position = global_position
+
+
+func _on_Hurtbox_invincibility_started():
+	animation_player.play("start")
+
+
+func _on_Hurtbox_invincibility_ended():
+	animation_player.play("stop")
