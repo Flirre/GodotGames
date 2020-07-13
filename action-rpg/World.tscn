@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=2]
+[gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://World/Tree.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Camera2D.tscn" type="PackedScene" id=10]
 [ext_resource path="res://crt.shader" type="Shader" id=11]
+[ext_resource path="res://fog.shader" type="Shader" id=12]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 11 )
@@ -527,10 +528,15 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 0/shapes = [  ]
 0/z_index = 0
 
+[sub_resource type="ShaderMaterial" id=57]
+shader = ExtResource( 12 )
+shader_param/color = Vector3( 0.01, 0.2, 0.01 )
+shader_param/OCTAVES = 5
+
 [sub_resource type="ShaderMaterial" id=55]
 shader = ExtResource( 11 )
 shader_param/scanline_count = 320.0
-shader_param/crt_strength = 1.0
+shader_param/crt_strength = 3.0
 
 [node name="World" type="Node2D"]
 material = SubResource( 1 )
@@ -1508,6 +1514,16 @@ position = Vector2( 244, 158 )
 [node name="Bat9" parent="YSort" instance=ExtResource( 7 )]
 position = Vector2( 229, 177 )
 
+[node name="fog_shader" type="ColorRect" parent="."]
+material = SubResource( 57 )
+margin_left = -872.0
+margin_top = -686.0
+margin_right = 1192.0
+margin_bottom = 866.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
@@ -1516,11 +1532,10 @@ margin_top = 4.0
 margin_right = 66.0
 margin_bottom = 16.0
 
-[node name="ScreenShader" type="ColorRect" parent="CanvasLayer"]
+[node name="CRT_Shader" type="ColorRect" parent="CanvasLayer"]
 material = SubResource( 55 )
 margin_right = 320.0
 margin_bottom = 180.0
-color = Color( 1, 1, 1, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
