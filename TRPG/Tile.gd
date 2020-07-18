@@ -1,29 +1,62 @@
 extends Spatial
 
+class_name Tile
+
 var available: bool = true
 onready var availabilityIndicator = $AvailabilityIndicator
-onready var aboveRay = $TileMesh/Spatial/Above
+onready var aboveAreaRay = $TileMesh/Rays/AboveArea
+onready var aboveBodyRay = $TileMesh/Rays/AboveBody
+onready var leftRay = $TileMesh/Rays/Left
+onready var rightRay = $TileMesh/Rays/Right
+onready var upRay = $TileMesh/Rays/Up
+onready var downRay = $TileMesh/Rays/Down
 
 var character = null
 var checked = false
+var neighbours = []
+var i = 0
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
+func find_neighbours():
+	#neighbours = []
+	if upRay.is_colliding():
+		neighbours.push_back(upRay.get_collider())
+	if rightRay.is_colliding():
+		neighbours.push_back(rightRay.get_collider())
+	if downRay.is_colliding():
+		neighbours.push_back(downRay.get_collider())
+	if leftRay.is_colliding():
+		neighbours.push_back(leftRay.get_collider())
+	return neighbours
+	
+func find_all_neighbours_in_range(char_range: int):
+	i = 0
+	while i < char_range:
+		if neighbours.size() == 0:
+			find_neighbours()
+		else:
+			for neighbour in neighbours:
+				neighbours += neighbour.owner.find_neighbours()
+				#print_debug(neighbours)
+		i += 1
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+	
 func _process(delta):
-	if not checked and not character:
-		if(aboveRay.is_colliding()):
-			character = aboveRay.get_collider()
+	if not checked:
+		if(aboveBodyRay.is_colliding()):
 			available = false
-		availabilityIndicator.visible = available
+			character = aboveBodyRay.get_collider()
+			if character:
+				available = false
+				find_all_neighbours_in_range(character.owner.movement)
+		if(aboveAreaRay.is_colliding()):
+			available = false
+			
+		for neighbour in neighbours:
+			neighbour.owner.available = false
+			
 		checked = true
-		print(character)
+		availabilityIndicator.visible = available

@@ -8,9 +8,20 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Spatial",
+"class": "Character",
+"language": "GDScript",
+"path": "res://Character.gd"
+}, {
+"base": "Spatial",
+"class": "Tile",
+"language": "GDScript",
+"path": "res://Tile.gd"
+} ]
 _global_script_class_icons={
-
+"Character": "",
+"Tile": ""
 }
 
 [application]
