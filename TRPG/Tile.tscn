@@ -38,17 +38,20 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 
 [node name="AboveArea" type="RayCast" parent="TileMesh/Rays"]
+visible = false
 enabled = true
 cast_to = Vector3( 0, 3, 0 )
 collide_with_areas = true
 collide_with_bodies = false
 
 [node name="AboveBody" type="RayCast" parent="TileMesh/Rays"]
+visible = false
 enabled = true
 cast_to = Vector3( 0, 2, 0 )
 
 [node name="Left" type="RayCast" parent="TileMesh/Rays"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0 )
+visible = false
 enabled = true
 cast_to = Vector3( 0, -8, 0 )
 collide_with_areas = true
@@ -56,6 +59,7 @@ collide_with_bodies = false
 
 [node name="Right" type="RayCast" parent="TileMesh/Rays"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 4, 0 )
+visible = false
 enabled = true
 cast_to = Vector3( 0, -8, 0 )
 collide_with_areas = true
@@ -63,6 +67,7 @@ collide_with_bodies = false
 
 [node name="Up" type="RayCast" parent="TileMesh/Rays"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 2 )
+visible = false
 enabled = true
 cast_to = Vector3( 0, -8, 0 )
 collide_with_areas = true
@@ -70,6 +75,7 @@ collide_with_bodies = false
 
 [node name="Down" type="RayCast" parent="TileMesh/Rays"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -2 )
+visible = false
 enabled = true
 cast_to = Vector3( 0, -8, 0 )
 collide_with_areas = true

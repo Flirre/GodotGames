@@ -1,12 +1,46 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Tile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Character.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Game.gd" type="Script" id=3]
+[ext_resource path="res://assets/mr-beard.png" type="Texture" id=4]
+
+[sub_resource type="ProceduralSky" id=5]
+radiance_size = 0
+sky_top_color = Color( 0.0156863, 0.235294, 0.992157, 1 )
+sky_horizon_color = Color( 0.0156863, 0.235294, 0.992157, 1 )
+sky_curve = 0.719999
+ground_bottom_color = Color( 0.647059, 0.839216, 0.945098, 1 )
+ground_horizon_color = Color( 0.0156863, 0.235294, 0.992157, 1 )
+ground_curve = 1.11431
+sun_energy = 20.0
+texture_size = 0
+
+[sub_resource type="Environment" id=4]
+background_mode = 2
+background_sky = SubResource( 5 )
+background_sky_orientation = Basis( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107 )
 
 [node name="Game" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="Shadows" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 5.96046e-08, 1, 0, -1, 5.96046e-08, 0, 8, 0 )
+light_energy = 0.25
+shadow_enabled = true
+directional_shadow_mode = 0
+
+[node name="MoodLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 7, 0 )
+light_energy = 0.35
+directional_shadow_mode = 0
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.866025, 0.353553, -0.353553, 0, 0.707107, 0.707107, 0.5, -0.612372, 0.612372, -8, 14, 11 )
+transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -24, 32, 20 )
+environment = SubResource( 4 )
+projection = 1
+current = true
+size = 20.0
 
 [node name="Tiles" type="Spatial" parent="."]
 
@@ -306,8 +340,64 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2 )
 [node name="Tile25" parent="Tiles" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 
-[node name="Character" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -4 )
+[node name="Tile100" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0 )
 
-[node name="Character2" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 4 )
+[node name="Tile101" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 2 )
+
+[node name="Tile102" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 2 )
+
+[node name="Tile103" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 4 )
+
+[node name="Tile104" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 4 )
+
+[node name="Tile105" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 6 )
+
+[node name="Tile106" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 4 )
+
+[node name="Tile107" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6 )
+
+[node name="Tile108" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 6 )
+
+[node name="Tile109" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -2 )
+
+[node name="Tile110" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -4 )
+
+[node name="Tile111" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -6 )
+
+[node name="Tile112" parent="Tiles" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8 )
+
+[node name="Allies" type="Spatial" parent="."]
+
+[node name="Character" parent="Allies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, -4 )
+speed = 8
+
+[node name="CharSprite" parent="Allies/Character" index="1"]
+modulate = Color( 0.713726, 0.737255, 0.984314, 1 )
+
+[node name="Enemies" type="Spatial" parent="."]
+
+[node name="Character2" parent="Enemies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 4 )
+speed = 4
+
+[node name="CharSprite" parent="Enemies/Character2" index="1"]
+modulate = Color( 1, 0.639216, 0.639216, 1 )
+texture = ExtResource( 4 )
+
+[editable path="Allies/Character"]
+
+[editable path="Enemies/Character2"]

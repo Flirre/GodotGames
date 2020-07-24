@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/character_femalePerson_switch1.png-14e5a0e27d6dcaa62fcd1805f34187f2.s3tc.stex"
-path.etc2="res://.import/character_femalePerson_switch1.png-14e5a0e27d6dcaa62fcd1805f34187f2.etc2.stex"
+path.s3tc="res://.import/LargeShadow.png-dbad8dd51c47ae492f532443c8fa15d2.s3tc.stex"
+path.etc2="res://.import/LargeShadow.png-dbad8dd51c47ae492f532443c8fa15d2.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/character_femalePerson_switch1.png"
-dest_files=[ "res://.import/character_femalePerson_switch1.png-14e5a0e27d6dcaa62fcd1805f34187f2.s3tc.stex", "res://.import/character_femalePerson_switch1.png-14e5a0e27d6dcaa62fcd1805f34187f2.etc2.stex" ]
+source_file="res://assets/LargeShadow.png"
+dest_files=[ "res://.import/LargeShadow.png-dbad8dd51c47ae492f532443c8fa15d2.s3tc.stex", "res://.import/LargeShadow.png-dbad8dd51c47ae492f532443c8fa15d2.etc2.stex" ]
 
 [params]
 

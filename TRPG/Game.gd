@@ -1,9 +1,6 @@
 extends Spatial
 
-class_name Character
 
-var movement = 2
-export (int) var speed = 5
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
