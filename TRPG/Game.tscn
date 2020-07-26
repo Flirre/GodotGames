@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/mr-beard.png" type="Texture" id=4]
 [ext_resource path="res://Camera.gd" type="Script" id=5]
 
-[sub_resource type="ProceduralSky" id=5]
+[sub_resource type="ProceduralSky" id=1]
 radiance_size = 0
 sky_top_color = Color( 0.0156863, 0.235294, 0.992157, 1 )
 sky_horizon_color = Color( 0.0156863, 0.235294, 0.992157, 1 )
@@ -17,9 +17,9 @@ ground_curve = 1.11431
 sun_energy = 20.0
 texture_size = 0
 
-[sub_resource type="Environment" id=4]
+[sub_resource type="Environment" id=2]
 background_mode = 2
-background_sky = SubResource( 5 )
+background_sky = SubResource( 1 )
 background_sky_orientation = Basis( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107 )
 
 [node name="Game" type="Spatial"]
@@ -38,7 +38,7 @@ directional_shadow_mode = 0
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -24, 32, 20 )
-environment = SubResource( 4 )
+environment = SubResource( 2 )
 projection = 1
 current = true
 size = 20.0
@@ -387,14 +387,28 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, -4 )
 speed = 8
 
+[node name="Moustache2" parent="Allies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 6, -6 )
+speed = 8
+
 [node name="Enemies" type="Spatial" parent="."]
 
 [node name="Beard" parent="Enemies" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 4 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 4 )
 speed = 8
 
 [node name="CharSprite" parent="Enemies/Beard" index="1"]
 modulate = Color( 1, 0.546875, 0.546875, 1 )
 texture = ExtResource( 4 )
 
+[node name="Beard3" parent="Enemies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 4 )
+speed = 8
+
+[node name="CharSprite" parent="Enemies/Beard3" index="1"]
+modulate = Color( 1, 0.546875, 0.546875, 1 )
+texture = ExtResource( 4 )
+
 [editable path="Enemies/Beard"]
+
+[editable path="Enemies/Beard3"]

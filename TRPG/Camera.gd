@@ -11,7 +11,7 @@ func _process(delta: float) -> void:
 		motion.y = -1
 	else:
 		motion.y = 0
-		
+
 	if Input.is_action_pressed("ui_right"):
 		motion.z = 1
 	elif Input.is_action_pressed("ui_left"):
@@ -29,3 +29,7 @@ func _process(delta: float) -> void:
 	velocity += motion
 	velocity *= 0.9
 	translation += velocity * delta
+
+func move_to(target: Vector3, delta: float) -> void:
+	var offsetVector := Vector3(-26, 32, 20)
+	transform.origin = lerp(transform.origin, Vector3(offsetVector.x - target.x, offsetVector.y ,offsetVector.z - target.z), delta)
