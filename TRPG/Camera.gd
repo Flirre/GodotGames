@@ -31,5 +31,5 @@ func _process(delta: float) -> void:
 	translation += velocity * delta
 
 func move_to(target: Vector3, delta: float) -> void:
-	var offsetVector := Vector3(-26, 32, 20)
-	transform.origin = lerp(transform.origin, Vector3(offsetVector.x - target.x, offsetVector.y ,offsetVector.z - target.z), delta)
+	var offsetVector := Vector3(-12, 18, 12)
+	transform.origin = lerp(transform.origin, Vector3(offsetVector.x + target.x, offsetVector.y + target.y, offsetVector.z + target.z), delta)
