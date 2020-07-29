@@ -21,9 +21,12 @@ func _process(delta):
 	if moving and current_tile:
 		camera.move_to(current_tile.global_transform.origin, delta)
 	if Input.is_action_just_pressed("ui_accept"):
-		i += 1
-		get_next_character()
+		if is_body_above(current_tile):
+			print(get_character_on_tile(current_tile))
 	control_tile()
+
+func get_character_on_tile(tile: Tile):
+	return tile.aboveBodyRay.get_collider().owner
 
 func control_tile():
 	if Input.is_action_just_pressed("ui_up"):
@@ -36,8 +39,14 @@ func control_tile():
 		move_to_ray(current_tile.leftRay)
 
 func move_to_ray(ray: RayCast):
-	if ray.is_colliding() and not ray.get_collider().owner.aboveAreaRay.is_colliding():
+	if ray.is_colliding() and not is_tile_above(ray.get_collider().owner):
 		set_current_tile(ray.get_collider().owner)
+
+func is_tile_above(tile: Tile):
+	return tile.aboveAreaRay.is_colliding()
+
+func is_body_above(tile: Tile):
+	return tile.aboveBodyRay.is_colliding()
 
 func set_current_tile(tile: Tile):
 	current_tile.current = false

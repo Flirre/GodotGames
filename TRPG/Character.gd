@@ -18,6 +18,10 @@ func _ready():
 func on_active():
 	current_tile = tileRay.get_collider().owner
 	poss_moves = current_tile.neighbours
+	find_possible_movement(movement)
+	emit_signal("active_completed")
+
+func find_possible_movement(movement: int):
 	for i in range(movement - 1):
 		for move in poss_moves:
 			var new_moves = move.neighbours
@@ -26,8 +30,7 @@ func on_active():
 					poss_moves = poss_moves + [poss_new_move]
 	for tile in poss_moves:
 		tile.check_availability()
-	emit_signal("active_completed")
-	
+
 func exit_active():
 	for tile in poss_moves:
 		tile.available = false
