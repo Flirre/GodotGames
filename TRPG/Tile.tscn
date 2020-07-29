@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Tile.gd" type="Script" id=1]
 
@@ -26,6 +26,15 @@ size = Vector2( 1.8, 1.8 )
 [sub_resource type="ConvexPolygonShape" id=7]
 points = PoolVector3Array( -1, 0.5, 1, 1, 0.5, -1, 1, 0.5, 1, -1, 0.5, -1, -1, -0.5, 1, 1, -0.5, -1, 1, -0.5, 1, -1, -0.5, -1, 1, 0.5, 1, -1, 0.5, -1, 1, 0.5, -1, -1, 0.5, 1, 1, -0.5, 1, -1, -0.5, -1, 1, -0.5, -1, -1, -0.5, 1, 1, 0.5, 1, -1, -0.5, 1, -1, 0.5, 1, 1, -0.5, 1, 1, 0.5, -1, -1, -0.5, -1, -1, 0.5, -1, 1, -0.5, -1 )
 
+[sub_resource type="SpatialMaterial" id=9]
+albedo_color = Color( 0.960784, 0.901961, 0.0235294, 1 )
+
+[sub_resource type="PlaneMesh" id=10]
+material = SubResource( 9 )
+
+[sub_resource type="CubeMesh" id=11]
+size = Vector3( 1.8, 0.2, 1.8 )
+
 [node name="Tile" type="Spatial"]
 script = ExtResource( 1 )
 
@@ -33,48 +42,6 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 mesh = SubResource( 2 )
 material/0 = null
-
-[node name="Rays" type="Spatial" parent="TileMesh"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-visible = false
-
-[node name="AboveArea" type="RayCast" parent="TileMesh/Rays"]
-enabled = true
-cast_to = Vector3( 0, 3, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="AboveBody" type="RayCast" parent="TileMesh/Rays"]
-enabled = true
-cast_to = Vector3( 0, 2, 0 )
-
-[node name="Left" type="RayCast" parent="TileMesh/Rays"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0 )
-enabled = true
-cast_to = Vector3( 0, -8, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Right" type="RayCast" parent="TileMesh/Rays"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 4, 0 )
-enabled = true
-cast_to = Vector3( 0, -8, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Up" type="RayCast" parent="TileMesh/Rays"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 2 )
-enabled = true
-cast_to = Vector3( 0, -8, 0 )
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="Down" type="RayCast" parent="TileMesh/Rays"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -2 )
-enabled = true
-cast_to = Vector3( 0, -8, 0 )
-collide_with_areas = true
-collide_with_bodies = false
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.001, 0 )
@@ -91,3 +58,66 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 shape = SubResource( 7 )
+
+[node name="CurrentIndicator" type="CSGCombiner" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01, 0 )
+visible = false
+
+[node name="CSGMesh" type="CSGMesh" parent="CurrentIndicator"]
+mesh = SubResource( 10 )
+
+[node name="CSGMesh2" type="CSGMesh" parent="CurrentIndicator"]
+operation = 2
+mesh = SubResource( 11 )
+
+[node name="CSGBox" type="CSGBox" parent="CurrentIndicator"]
+operation = 2
+height = 0.2
+depth = 1.2
+
+[node name="CSGBox2" type="CSGBox" parent="CurrentIndicator"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+operation = 2
+height = 0.2
+depth = 1.2
+
+[node name="Rays" type="Spatial" parent="."]
+visible = false
+
+[node name="AboveArea" type="RayCast" parent="Rays"]
+enabled = true
+cast_to = Vector3( 0, 3, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="AboveBody" type="RayCast" parent="Rays"]
+enabled = true
+cast_to = Vector3( 0, 2, 0 )
+
+[node name="Up" type="RayCast" parent="Rays"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0 )
+enabled = true
+cast_to = Vector3( 0, -8, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Down" type="RayCast" parent="Rays"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 4, 0 )
+enabled = true
+cast_to = Vector3( 0, -8, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Right" type="RayCast" parent="Rays"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 2 )
+enabled = true
+cast_to = Vector3( 0, -8, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Left" type="RayCast" parent="Rays"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -2 )
+enabled = true
+cast_to = Vector3( 0, -8, 0 )
+collide_with_areas = true
+collide_with_bodies = false

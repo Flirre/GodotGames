@@ -3,13 +3,15 @@ extends Spatial
 class_name Tile
 
 var available: bool
+var current: bool
 onready var availabilityIndicator: MeshInstance = $AvailabilityIndicator
-onready var aboveAreaRay: RayCast = $TileMesh/Rays/AboveArea
-onready var aboveBodyRay: RayCast = $TileMesh/Rays/AboveBody
-onready var leftRay: RayCast = $TileMesh/Rays/Left
-onready var rightRay: RayCast = $TileMesh/Rays/Right
-onready var upRay: RayCast = $TileMesh/Rays/Up
-onready var downRay: RayCast = $TileMesh/Rays/Down
+onready var currentIndicator: CSGCombiner = $CurrentIndicator
+onready var aboveAreaRay: RayCast = $Rays/AboveArea
+onready var aboveBodyRay: RayCast = $Rays/AboveBody
+onready var leftRay: RayCast = $Rays/Left
+onready var rightRay: RayCast = $Rays/Right
+onready var upRay: RayCast = $Rays/Up
+onready var downRay: RayCast = $Rays/Down
 
 var checked: bool = false
 var neighbours: Array = []
@@ -18,6 +20,7 @@ var i: int = 0
 signal clicked
 
 func _ready():
+	current = false
 	available = false
 	checked = false
 	neighbours = []
@@ -33,16 +36,6 @@ func find_neighbours():
 	if leftRay.is_colliding():
 		neighbours.push_back(leftRay.get_collider().owner)
 
-#func find_all_neighbours_in_range(char_range: int):
-#	i = 0
-#	while i < char_range:
-#		if neighbours.size() == 0:
-#			find_neighbours()
-#		else:
-#			for neighbour in neighbours:
-#				neighbours += neighbour.find_neighbours()
-#		i += 1
-
 func check_availability():
 	available = true
 	if(aboveBodyRay.is_colliding()):
@@ -55,6 +48,7 @@ func _process(_delta):
 		checked = true
 		#check_availability()
 	availabilityIndicator.visible = available
+	currentIndicator.visible = current
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:

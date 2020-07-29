@@ -14,10 +14,7 @@ func _ready():
 	current_character = current_team.get_child(0)
 	yield(get_tree().create_timer(0.00000001), "timeout")
 	current_character.active = true
-	var result = current_character.on_active()
-	yield(get_tree().create_timer(0.00000001), "timeout")
-	print(current_character)
-	print(current_character.current_tile)
+	yield(current_character, "active_completed")
 	current_tile = current_character.current_tile
 
 func _process(delta):
@@ -26,6 +23,26 @@ func _process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		i += 1
 		get_next_character()
+	control_tile()
+
+func control_tile():
+	if Input.is_action_just_pressed("ui_up"):
+		move_to_ray(current_tile.upRay)
+	if Input.is_action_just_pressed("ui_right"):
+		move_to_ray(current_tile.rightRay)
+	if Input.is_action_just_pressed("ui_down"):
+		move_to_ray(current_tile.downRay)
+	if Input.is_action_just_pressed("ui_left"):
+		move_to_ray(current_tile.leftRay)
+
+func move_to_ray(ray: RayCast):
+	if ray.is_colliding() and not ray.get_collider().owner.aboveAreaRay.is_colliding():
+		set_current_tile(ray.get_collider().owner)
+
+func set_current_tile(tile: Tile):
+	current_tile.current = false
+	current_tile = tile
+	current_tile.current = true
 
 func get_next_character():
 	if not i >= current_team.get_child_count():
@@ -41,12 +58,13 @@ func get_next_character():
 func update_current_character(index):
 	current_character.active = false
 	current_character = current_team.get_child(index)
-	yield(get_tree().create_timer(0.00000001), "timeout")
+#	yield(get_tree().create_timer(0.00000001), "timeout")
 	current_character.active = true
-	current_tile = current_character.current_tile
-	current_character.move_to()
+	yield(current_character, "active_completed")
+	set_current_tile(current_character.current_tile)
+#	current_character.move_to()
 
-#func _input(event):
-#   # Mouse in viewport coordinates
-#   if event is InputEventMouseButton:
-#	   print("Mouse Click/Unclick at: ", event)
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and (event.scancode == KEY_ESCAPE or event.scancode == KEY_Q):
+			get_tree().quit()

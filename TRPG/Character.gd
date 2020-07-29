@@ -9,8 +9,8 @@ var current_tile = null
 onready var tileRay = $CurrentTile
 var poss_moves = []
 
+signal active_completed
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	if active:
 		on_active()
@@ -26,6 +26,7 @@ func on_active():
 					poss_moves = poss_moves + [poss_new_move]
 	for tile in poss_moves:
 		tile.check_availability()
+	emit_signal("active_completed")
 	
 func exit_active():
 	for tile in poss_moves:
