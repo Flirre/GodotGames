@@ -64,9 +64,15 @@ fit_content_height = true
 [node name="UnitsLeft" type="RichTextLabel" parent="Camera/VBoxContainer"]
 margin_top = 19.0
 margin_right = 599.0
-margin_bottom = 49.0
-text = "Units left: 0
-"
+margin_bottom = 34.0
+text = "Units left: 0"
+fit_content_height = true
+
+[node name="CurrentTurn" type="RichTextLabel" parent="Camera/VBoxContainer"]
+margin_top = 38.0
+margin_right = 599.0
+margin_bottom = 53.0
+text = "Current Turn: 1"
 fit_content_height = true
 
 [node name="Allies" type="Spatial" parent="."]

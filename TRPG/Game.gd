@@ -8,10 +8,12 @@ onready var enemies := $Enemies
 onready var camera := $Camera
 onready var teamLabel := $Camera/VBoxContainer/TeamLabel
 onready var unitsLeftLabel := $Camera/VBoxContainer/UnitsLeft
+onready var CurrentTurnLabel := $Camera/VBoxContainer/CurrentTurn
 var i: int
 var moving := true
 var current_units: int
 var turns_spent: int setget handle_turns_spent
+var game_turns := 1 setget handle_new_game_turn
 
 func _ready():
 	setup_unit_signals()
@@ -43,6 +45,7 @@ func switch_team():
 		set_current_team(enemies)
 	else:
 		set_current_team(allies)
+		self.game_turns += 1
 	current_units = current_team.get_child_count()
 	self.turns_spent = 0
 	current_character = current_team.get_child(0)
@@ -60,6 +63,9 @@ func handle_turns_spent(val: int) -> void:
 
 func set_units_left_label(text: String) -> void:
 	unitsLeftLabel.text = "Units left: " + str(text)
+
+func handle_new_game_turn(val) -> void:
+	CurrentTurnLabel.text = "Current Turn: " + str(val)
 
 func _process(delta):
 	if moving and current_tile:
