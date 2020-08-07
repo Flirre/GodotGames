@@ -1,22 +1,52 @@
 extends Spatial
 
 var current_character: Character = null
-var current_tile: Tile = null
+var current_tile: Tile = null setget set_current_tile
 var current_team: Object
 onready var allies := $Allies
 onready var enemies := $Enemies
 onready var camera := $Camera
 var i: int
 var moving := true
+var current_units: int
+var turns_spent: int
 
 func _ready():
+	setup_unit_signals()
 	current_team = allies
+	current_units = current_team.get_child_count()
+	turns_spent = 0
 	current_character = current_team.get_child(0)
 	yield(get_tree().create_timer(0.00000001), "timeout")
 	current_character.active = true
 	yield(current_character, "active_completed")
-	current_tile = current_character.current_tile
-	current_tile.current = true
+	self.current_tile = current_character.current_tile
+
+func setup_unit_signals():
+	for ally in allies.get_children():
+		ally.connect("unit_turn_finished", self, "handle_unit_turn_finished")
+	for enemy in enemies.get_children():
+		enemy.connect("unit_turn_finished", self, "handle_unit_turn_finished")
+
+func handle_unit_turn_finished():
+	turns_spent += 1
+	if turns_spent >= current_units:
+		switch_team()
+
+func switch_team():
+	yield(get_tree().create_timer(1), "timeout")
+	for unit in current_team.get_children():
+		unit.reset_status()
+	if current_team == allies:
+		current_team = enemies
+	else:
+		current_team = allies
+	current_units = current_team.get_child_count()
+	turns_spent = 0
+	current_character = current_team.get_child(0)
+	current_character.active = true
+	yield(current_character, "active_completed")
+	self.current_tile = current_character.current_tile
 
 func _process(delta):
 	if moving and current_tile:
@@ -26,17 +56,20 @@ func _process(delta):
 			set_current_character(get_character_on_tile(current_tile))
 		else:
 			if current_tile.available:
-				current_character.move_to(current_tile, delta)
-				yield(current_character, "tween_completed")
-				current_character.active = false
-				current_character = null
+				move_character(delta)
 	control_tile()
-	
+
 func get_character_on_tile(tile: Tile) -> Character:
 	return tile.aboveBodyRay.get_collider().owner
 
 func valid_character_choice(character: Character) -> bool:
 	return not character.turn_spent and character.get_parent_spatial() == current_team
+
+func move_character(delta: float) -> void:
+	current_character.move_to(current_tile, delta)
+	yield(current_character, "tween_completed")
+	current_character.active = false
+	current_character = null
 
 func control_tile():
 	if Input.is_action_just_pressed("ui_up"):
@@ -59,7 +92,8 @@ func is_body_above(tile: Tile):
 	return tile.aboveBodyRay.is_colliding()
 
 func set_current_tile(tile: Tile):
-	current_tile.current = false
+	if current_tile != null:
+		current_tile.current = false
 	current_tile = tile
 	current_tile.current = true
 

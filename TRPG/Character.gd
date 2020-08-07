@@ -10,12 +10,16 @@ onready var tileRay = $CurrentTile
 onready var tween = $Tween
 onready var endSign = $END
 var poss_moves = []
-var turn_spent: bool
+var turn_spent setget set_turn_spent
+
+func set_turn_spent(val: bool):
+	endSign.visible = val
 
 signal active_completed
 signal inactive_completed
 signal movement_completed
 signal tween_completed
+signal unit_turn_finished
 
 func _ready():
 	if active:
@@ -42,13 +46,11 @@ func exit_active():
 		tile.available = false
 	current_tile = null
 	poss_moves = []
-	turn_spent = true
-	endSign.visible = turn_spent
-	#fix turns and team switching resetting turns spent for units
+	self.turn_spent = true
 	emit_signal("inactive_completed")
+	emit_signal("unit_turn_finished")
 
 func move_to(tile: Tile, delta: float):
-#	self.transform.origin = tile.transform.origin + Vector3(0,2,0)
 	tween.interpolate_property(self, "translation", self.transform.origin, tile.transform.origin + Vector3(0, 2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 	yield(tween, "tween_completed")
@@ -60,3 +62,6 @@ func _process(delta):
 		on_active()
 	if not active and not current_tile == null:
 		exit_active()
+
+func reset_status() -> void:
+	self.turn_spent = false
