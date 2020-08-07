@@ -6,16 +6,18 @@ var current_team: Object
 onready var allies := $Allies
 onready var enemies := $Enemies
 onready var camera := $Camera
+onready var teamLabel := $Camera/VBoxContainer/TeamLabel
+onready var unitsLeftLabel := $Camera/VBoxContainer/UnitsLeft
 var i: int
 var moving := true
 var current_units: int
-var turns_spent: int
+var turns_spent: int setget handle_turns_spent
 
 func _ready():
 	setup_unit_signals()
-	current_team = allies
+	set_current_team(allies)
 	current_units = current_team.get_child_count()
-	turns_spent = 0
+	self.turns_spent = 0
 	current_character = current_team.get_child(0)
 	yield(get_tree().create_timer(0.00000001), "timeout")
 	current_character.active = true
@@ -29,7 +31,7 @@ func setup_unit_signals():
 		enemy.connect("unit_turn_finished", self, "handle_unit_turn_finished")
 
 func handle_unit_turn_finished():
-	turns_spent += 1
+	self.turns_spent += 1
 	if turns_spent >= current_units:
 		switch_team()
 
@@ -38,15 +40,26 @@ func switch_team():
 	for unit in current_team.get_children():
 		unit.reset_status()
 	if current_team == allies:
-		current_team = enemies
+		set_current_team(enemies)
 	else:
-		current_team = allies
+		set_current_team(allies)
 	current_units = current_team.get_child_count()
-	turns_spent = 0
+	self.turns_spent = 0
 	current_character = current_team.get_child(0)
 	current_character.active = true
 	yield(current_character, "active_completed")
 	self.current_tile = current_character.current_tile
+
+func set_current_team(team: Object) -> void:
+	current_team = team
+	teamLabel.text = current_team.name
+
+func handle_turns_spent(val: int) -> void:
+	turns_spent = val
+	set_units_left_label(str(current_units - turns_spent))
+
+func set_units_left_label(text: String) -> void:
+	unitsLeftLabel.text = "Units left: " + str(text)
 
 func _process(delta):
 	if moving and current_tile:

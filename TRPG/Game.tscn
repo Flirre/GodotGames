@@ -46,6 +46,29 @@ current = true
 size = 20.0
 script = ExtResource( 5 )
 
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 609.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TeamLabel" type="RichTextLabel" parent="Camera/VBoxContainer"]
+margin_right = 599.0
+margin_bottom = 15.0
+text = "Allies"
+fit_content_height = true
+
+[node name="UnitsLeft" type="RichTextLabel" parent="Camera/VBoxContainer"]
+margin_top = 19.0
+margin_right = 599.0
+margin_bottom = 49.0
+text = "Units left: 0
+"
+fit_content_height = true
+
 [node name="Allies" type="Spatial" parent="."]
 
 [node name="Character" parent="Allies" instance=ExtResource( 2 )]
