@@ -7,9 +7,15 @@ export (int) var speed = 5
 var active := false
 var current_tile = null
 onready var tileRay = $CurrentTile
+onready var tween = $Tween
+onready var endSign = $END
 var poss_moves = []
+var turn_spent: bool
 
 signal active_completed
+signal inactive_completed
+signal movement_completed
+signal tween_completed
 
 func _ready():
 	if active:
@@ -36,9 +42,17 @@ func exit_active():
 		tile.available = false
 	current_tile = null
 	poss_moves = []
+	turn_spent = true
+	endSign.visible = turn_spent
+	#fix turns and team switching resetting turns spent for units
+	emit_signal("inactive_completed")
 
-func move_to():
-	self.transform.origin = Vector3(-2, 2.3, 4)
+func move_to(tile: Tile, delta: float):
+#	self.transform.origin = tile.transform.origin + Vector3(0,2,0)
+	tween.interpolate_property(self, "translation", self.transform.origin, tile.transform.origin + Vector3(0, 2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.start()
+	yield(tween, "tween_completed")
+	emit_signal("tween_completed")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
