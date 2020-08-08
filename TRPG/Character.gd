@@ -14,6 +14,7 @@ var turn_spent setget set_turn_spent
 
 func set_turn_spent(val: bool):
 	endSign.visible = val
+	turn_spent = val
 
 signal active_completed
 signal inactive_completed

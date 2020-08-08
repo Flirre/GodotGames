@@ -64,8 +64,9 @@ func handle_turns_spent(val: int) -> void:
 func set_units_left_label(text: String) -> void:
 	unitsLeftLabel.text = "Units left: " + str(text)
 
-func handle_new_game_turn(val) -> void:
+func handle_new_game_turn(val: int) -> void:
 	CurrentTurnLabel.text = "Current Turn: " + str(val)
+	game_turns = val
 
 func _process(delta):
 	if moving and current_tile:
