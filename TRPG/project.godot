@@ -15,12 +15,18 @@ _global_script_classes=[ {
 "path": "res://Character.gd"
 }, {
 "base": "Spatial",
+"class": "Game",
+"language": "GDScript",
+"path": "res://Game.gd"
+}, {
+"base": "Spatial",
 "class": "Tile",
 "language": "GDScript",
 "path": "res://Tile.gd"
 } ]
 _global_script_class_icons={
 "Character": "",
+"Game": "",
 "Tile": ""
 }
 

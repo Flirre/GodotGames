@@ -1,5 +1,7 @@
 extends Spatial
 
+class_name Game
+
 var current_character: Character = null
 var current_tile: Tile = null setget set_current_tile
 var current_team: Object
@@ -14,6 +16,9 @@ var moving := true
 var current_units: int
 var turns_spent: int setget handle_turns_spent
 var game_turns := 1 setget handle_new_game_turn
+
+enum GAME_STATE {CONTROL, UNIT}
+var state = GAME_STATE.CONTROL
 
 func _ready():
 	setup_unit_signals()
@@ -71,6 +76,13 @@ func handle_new_game_turn(val: int) -> void:
 func _process(delta):
 	if moving and current_tile:
 		camera.move_to(current_tile.global_transform.origin, delta)
+		match state:
+			GAME_STATE.CONTROL:
+				game_control_state(delta)
+			GAME_STATE.UNIT:
+				pass
+
+func game_control_state(delta: float):
 	if Input.is_action_just_pressed("ui_accept"):
 		if is_body_above(current_tile) and valid_character_choice(get_character_on_tile(current_tile)):
 			set_current_character(get_character_on_tile(current_tile))
