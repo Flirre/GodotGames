@@ -4,10 +4,10 @@ var motion := Vector3()
 var velocity := Vector3()
 var init_rotation := rotation.y
 
-onready var state = get_tree().get_root().get_node("Game").state
-enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE}
+const GAME_STATE = preload("res://Game.gd").GAME_STATE
 
 func _process(delta: float) -> void:
+	var state = get_tree().get_root().get_node("Game").state
 	match state:
 		GAME_STATE.UNIT_MOVE:
 			continue

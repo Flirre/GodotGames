@@ -24,9 +24,15 @@ var turns_spent: int setget handle_turns_spent
 var game_turns := 1 setget handle_new_game_turn
 
 enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE}
-var state = GAME_STATE.MAP_CONTROL
+var state
 
 func set_game_state(new_state):
+	if new_state == GAME_STATE.UNIT_CONTROL:
+		unitActions.visible = true
+		selectionArrow.visible = true
+	else:
+		unitActions.visible = false
+		selectionArrow.visible = false
 	state = new_state
 
 func _ready():
@@ -37,6 +43,7 @@ func _ready():
 	yield(get_tree().create_timer(0.00000001), "timeout")
 	self.current_tile = allies.get_child(0).get_tile()
 	self.current_selection_index = 0
+	set_game_state(GAME_STATE.MAP_CONTROL)
 
 func setup_unit_signals():
 	for ally in allies.get_children():
@@ -107,7 +114,9 @@ func unit_control_state(delta: float)->void:
 		print(current_selection.name)
 		match current_selection.name:
 			"Move":
-				pass
+				current_character.active = true
+				yield(current_character, "active_completed")
+				set_game_state(GAME_STATE.UNIT_MOVE)
 			"Attack":
 				pass
 			"Items":
@@ -177,9 +186,9 @@ func set_current_character(character: Character):
 		current_character.active = false
 		yield(current_character, "inactive_completed")
 	current_character = character
-	current_character.active = true
-	yield(current_character, "active_completed")
-	set_current_tile(current_character.current_tile)
+	#current_character.active = true
+	#yield(current_character, "active_completed")
+	set_current_tile(current_character.get_tile())
 
 func _unhandled_input(event):
 	if event is InputEventKey:
