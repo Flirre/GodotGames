@@ -114,13 +114,16 @@ func unit_control_state(delta: float)->void:
 		print(current_selection.name)
 		match current_selection.name:
 			"Move":
-				current_character.active = true
-				yield(current_character, "active_completed")
-				set_game_state(GAME_STATE.UNIT_MOVE)
+				character_move()
 			"Attack":
 				pass
 			"Items":
 				pass
+
+func character_move():
+	current_character.active = true
+	yield(current_character, "active_completed")
+	set_game_state(GAME_STATE.UNIT_MOVE)
 
 func set_current_selection_index(val: int):
 	if val < 0:
