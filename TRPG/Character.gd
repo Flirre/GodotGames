@@ -19,13 +19,16 @@ func set_turn_spent(val: bool):
 signal active_completed
 signal inactive_completed
 signal movement_completed
-signal tween_completed
+signal move_completed
 signal unit_turn_finished
 
 func _ready():
 	if active:
 		on_active()
-	
+
+func get_tile():
+	return tileRay.get_collider().owner
+
 func on_active():
 	current_tile = tileRay.get_collider().owner
 	poss_moves = current_tile.neighbours
@@ -55,7 +58,7 @@ func move_to(tile: Tile, delta: float):
 	tween.interpolate_property(self, "translation", self.transform.origin, tile.transform.origin + Vector3(0, 2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 	yield(tween, "tween_completed")
-	emit_signal("tween_completed")
+	emit_signal("move_completed")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

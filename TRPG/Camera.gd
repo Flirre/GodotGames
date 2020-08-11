@@ -5,11 +5,13 @@ var velocity := Vector3()
 var init_rotation := rotation.y
 
 onready var state = get_tree().get_root().get_node("Game").state
-enum GAME_STATE {CONTROL, UNIT}
+enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE}
 
 func _process(delta: float) -> void:
 	match state:
-		GAME_STATE.CONTROL:
+		GAME_STATE.UNIT_MOVE:
+			continue
+		GAME_STATE.MAP_CONTROL:
 			if Input.is_action_pressed("ui_up"):
 				motion.y = 1
 			elif Input.is_action_pressed("ui_down"):
@@ -35,7 +37,7 @@ func _process(delta: float) -> void:
 			velocity *= 0.9
 			translation += velocity * delta
 			
-		GAME_STATE.UNIT:
+		GAME_STATE.UNIT_CONTROL:
 			pass
 
 func move_to(target: Vector3, delta: float) -> void:

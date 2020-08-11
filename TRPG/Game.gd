@@ -5,31 +5,38 @@ class_name Game
 var current_character: Character = null
 var current_tile: Tile = null setget set_current_tile
 var current_team: Object
+var current_selection
+var current_selection_index: int setget set_current_selection_index
+
 onready var allies := $Allies
 onready var enemies := $Enemies
 onready var camera := $Camera
 onready var teamLabel := $Camera/VBoxContainer/TeamLabel
 onready var unitsLeftLabel := $Camera/VBoxContainer/UnitsLeft
 onready var CurrentTurnLabel := $Camera/VBoxContainer/CurrentTurn
+onready var unitActions := $Camera/UnitActions/VBoxContainer
+onready var selectionArrow := $Camera/UnitActions/SelectionArrow
+
 var i: int
 var moving := true
 var current_units: int
 var turns_spent: int setget handle_turns_spent
 var game_turns := 1 setget handle_new_game_turn
 
-enum GAME_STATE {CONTROL, UNIT}
-var state = GAME_STATE.CONTROL
+enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE}
+var state = GAME_STATE.MAP_CONTROL
+
+func set_game_state(new_state):
+	state = new_state
 
 func _ready():
 	setup_unit_signals()
 	set_current_team(allies)
 	current_units = current_team.get_child_count()
 	self.turns_spent = 0
-	current_character = current_team.get_child(0)
 	yield(get_tree().create_timer(0.00000001), "timeout")
-	current_character.active = true
-	yield(current_character, "active_completed")
-	self.current_tile = current_character.current_tile
+	self.current_tile = allies.get_child(0).get_tile()
+	self.current_selection_index = 0
 
 func setup_unit_signals():
 	for ally in allies.get_children():
@@ -53,10 +60,7 @@ func switch_team():
 		self.game_turns += 1
 	current_units = current_team.get_child_count()
 	self.turns_spent = 0
-	current_character = current_team.get_child(0)
-	current_character.active = true
-	yield(current_character, "active_completed")
-	self.current_tile = current_character.current_tile
+	self.current_tile = current_team.get_child(0).get_tile()
 
 func set_current_team(team: Object) -> void:
 	current_team = team
@@ -76,19 +80,54 @@ func handle_new_game_turn(val: int) -> void:
 func _process(delta):
 	if moving and current_tile:
 		camera.move_to(current_tile.global_transform.origin, delta)
-		match state:
-			GAME_STATE.CONTROL:
-				game_control_state(delta)
-			GAME_STATE.UNIT:
-				pass
+	match state:
+		GAME_STATE.MAP_CONTROL:
+			map_control_state(delta)
+		GAME_STATE.UNIT_CONTROL:
+			unit_control_state(delta)
+		GAME_STATE.UNIT_MOVE:
+			unit_move_state(delta)
+		
 
-func game_control_state(delta: float):
+func map_control_state(delta: float):
 	if Input.is_action_just_pressed("ui_accept"):
 		if is_body_above(current_tile) and valid_character_choice(get_character_on_tile(current_tile)):
 			set_current_character(get_character_on_tile(current_tile))
-		else:
-			if current_tile.available:
-				move_character(delta)
+			set_game_state(GAME_STATE.UNIT_CONTROL)
+	control_tile()
+
+# positions (17, 73, 130)
+func unit_control_state(delta: float)->void:
+	var next_index
+	if Input.is_action_just_pressed("ui_up"):
+		self.current_selection_index -= 1
+	if Input.is_action_just_pressed("ui_down"):
+		self.current_selection_index += 1
+	if Input.is_action_just_pressed("ui_accept"):
+		print(current_selection.name)
+		match current_selection.name:
+			"Move":
+				pass
+			"Attack":
+				pass
+			"Items":
+				pass
+
+func set_current_selection_index(val: int):
+	if val < 0:
+		current_selection_index = unitActions.get_child_count() - 1
+	elif val >= unitActions.get_child_count():
+		current_selection_index = 0
+	else:
+		current_selection_index = val
+	current_selection = unitActions.get_child(current_selection_index)
+	selectionArrow.set_global_position(Vector2(selectionArrow.rect_global_position.x, current_selection.get_global_rect().position.y + 17) )
+	
+
+func unit_move_state(delta):
+	if Input.is_action_just_pressed("ui_accept"):
+		if current_tile.available or current_tile == current_character.current_tile:
+			move_character(delta)
 	control_tile()
 
 func get_character_on_tile(tile: Tile) -> Character:
@@ -98,10 +137,14 @@ func valid_character_choice(character: Character) -> bool:
 	return not character.turn_spent and character.get_parent_spatial() == current_team
 
 func move_character(delta: float) -> void:
-	current_character.move_to(current_tile, delta)
-	yield(current_character, "tween_completed")
+	if(current_tile != current_character.current_tile):
+		current_character.move_to(current_tile, delta)
+		yield(current_character, "move_completed")
 	current_character.active = false
 	current_character = null
+	set_game_state(GAME_STATE.MAP_CONTROL)
+
+#make state for choosing to move etc. and show hide controls depending on state
 
 func control_tile():
 	if Input.is_action_just_pressed("ui_up"):
@@ -142,3 +185,9 @@ func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and (event.scancode == KEY_ESCAPE or event.scancode == KEY_Q):
 			get_tree().quit()
+
+func show_controls():
+	unitActions.visible = true
+
+func hide_controls():
+	unitActions.visible = false
