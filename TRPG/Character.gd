@@ -2,10 +2,15 @@ extends Spatial
 
 class_name Character
 
+enum TEAMS {ALLIES, ENEMIES, NEUTRAL}
+
 export (int) var movement = 2
 export (int) var speed = 5
+export (int) var jump = 2
+
 var active := false
 var current_tile = null
+export (int) var team
 onready var tileRay = $CurrentTile
 onready var tween = $Tween
 onready var endSign = $END
@@ -31,16 +36,19 @@ func get_tile():
 
 func on_active():
 	current_tile = tileRay.get_collider().owner
-	poss_moves = current_tile.neighbours
-	find_possible_movement(movement)
+	find_possible_movement(movement, jump)
 	emit_signal("active_completed")
 
-func find_possible_movement(movement: int):
-	for i in range(movement - 1):
+func find_possible_movement(possible_movement: int, jump: int):
+	poss_moves = []
+	for tile in current_tile.neighbours:
+		if not opposing_teams(tile.get_character()):
+			poss_moves = poss_moves + [tile]
+	for _i in range(possible_movement - 1):
 		for move in poss_moves:
 			var new_moves = move.neighbours
 			for poss_new_move in new_moves:
-				if not poss_new_move in poss_moves:
+				if not poss_new_move in poss_moves and not opposing_teams(poss_new_move.get_character()) and move.check_height(move.global_transform.origin.y, jump):
 					poss_moves = poss_moves + [poss_new_move]
 	for tile in poss_moves:
 		tile.check_availability()
@@ -54,14 +62,19 @@ func exit_active():
 	emit_signal("inactive_completed")
 	emit_signal("unit_turn_finished")
 
-func move_to(tile: Tile, delta: float):
-	tween.interpolate_property(self, "translation", self.transform.origin, tile.transform.origin + Vector3(0, 2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
-	yield(tween, "tween_completed")
+func opposing_teams(character: Character):
+	if character == null:
+		return false
+	return team != character.team
+
+func move_to(path: Array, _delta: float):
+	for tile in path:
+		tween.interpolate_property(self, "translation", self.transform.origin, tile + Vector3(0, 2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.start()
+		yield(tween, "tween_completed")
 	emit_signal("move_completed")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if active and current_tile == null:
 		on_active()
 	if not active and not current_tile == null:

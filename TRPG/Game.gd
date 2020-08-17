@@ -16,6 +16,7 @@ onready var unitsLeftLabel := $Camera/VBoxContainer/UnitsLeft
 onready var CurrentTurnLabel := $Camera/VBoxContainer/CurrentTurn
 onready var unitActions := $Camera/UnitActions/VBoxContainer
 onready var selectionArrow := $Camera/UnitActions/SelectionArrow
+onready var tiles := $Tiles
 
 var i: int
 var moving := true
@@ -96,16 +97,15 @@ func _process(delta):
 			unit_move_state(delta)
 		
 
-func map_control_state(delta: float):
+func map_control_state(_delta: float):
 	if Input.is_action_just_pressed("ui_accept"):
-		if is_body_above(current_tile) and valid_character_choice(get_character_on_tile(current_tile)):
-			set_current_character(get_character_on_tile(current_tile))
+		if is_body_above(current_tile) and valid_character_choice(current_tile.get_character()):
+			set_current_character(current_tile.get_character())
 			set_game_state(GAME_STATE.UNIT_CONTROL)
 	control_tile()
 
 # positions (17, 73, 130)
-func unit_control_state(delta: float)->void:
-	var next_index
+func unit_control_state(_delta: float)->void:
 	if Input.is_action_just_pressed("ui_up"):
 		self.current_selection_index -= 1
 	if Input.is_action_just_pressed("ui_down"):
@@ -123,6 +123,9 @@ func unit_control_state(delta: float)->void:
 func character_move():
 	current_character.active = true
 	yield(current_character, "active_completed")
+	for tile in tiles.get_children():
+		if tile.available:
+			tiles.enable_tile(int(tile.name))
 	set_game_state(GAME_STATE.UNIT_MOVE)
 
 func set_current_selection_index(val: int):
@@ -139,24 +142,21 @@ func set_current_selection_index(val: int):
 func unit_move_state(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		if current_tile.available or current_tile == current_character.current_tile:
+			print(current_character.current_tile.global_transform.origin)
+			print(tiles.aStar.get_future_point_path(int(current_character.get_tile().name), int(current_tile.name))) #keep fixing this
 			move_character(delta)
 	control_tile()
-
-func get_character_on_tile(tile: Tile) -> Character:
-	return tile.aboveBodyRay.get_collider().owner
 
 func valid_character_choice(character: Character) -> bool:
 	return not character.turn_spent and character.get_parent_spatial() == current_team
 
 func move_character(delta: float) -> void:
 	if(current_tile != current_character.current_tile):
-		current_character.move_to(current_tile, delta)
+		current_character.move_to(tiles.aStar.get_future_point_path(int(current_character.get_tile().name), int(current_tile.name)), delta)
 		yield(current_character, "move_completed")
 	current_character.active = false
 	current_character = null
 	set_game_state(GAME_STATE.MAP_CONTROL)
-
-#make state for choosing to move etc. and show hide controls depending on state
 
 func control_tile():
 	if Input.is_action_just_pressed("ui_up"):
@@ -189,8 +189,6 @@ func set_current_character(character: Character):
 		current_character.active = false
 		yield(current_character, "inactive_completed")
 	current_character = character
-	#current_character.active = true
-	#yield(current_character, "active_completed")
 	set_current_tile(current_character.get_tile())
 
 func _unhandled_input(event):

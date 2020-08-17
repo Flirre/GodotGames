@@ -142,14 +142,17 @@ __meta__ = {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2.3, 6 )
 
 [node name="Character2" parent="Allies" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2.3, 4 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.3, -6 )
+movement = 3
 
 [node name="Enemies" type="Spatial" parent="."]
 
 [node name="Character3" parent="Enemies" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5.3, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 5.3, -6 )
+team = 1
 
 [node name="CharSprite" parent="Enemies/Character3" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0, -0.4 )
 modulate = Color( 0.901961, 0.505882, 0.505882, 1 )
 texture = ExtResource( 4 )
 

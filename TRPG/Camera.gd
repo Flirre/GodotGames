@@ -9,9 +9,7 @@ const GAME_STATE = preload("res://Game.gd").GAME_STATE
 func _process(delta: float) -> void:
 	var state = get_tree().get_root().get_node("Game").state
 	match state:
-		GAME_STATE.UNIT_MOVE:
-			continue
-		GAME_STATE.MAP_CONTROL:
+		GAME_STATE.UNIT_MOVE, GAME_STATE.MAP_CONTROL:
 			if Input.is_action_pressed("ui_up"):
 				motion.y = 1
 			elif Input.is_action_pressed("ui_down"):

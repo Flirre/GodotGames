@@ -6,18 +6,19 @@ var available: bool
 var current: bool
 onready var availabilityIndicator: MeshInstance = $AvailabilityIndicator
 onready var currentIndicator: CSGCombiner = $CurrentIndicator
-onready var aboveAreaRay: RayCast = $Rays/AboveArea
-onready var aboveBodyRay: RayCast = $Rays/AboveBody
-onready var leftRay: RayCast = $Rays/Left
-onready var rightRay: RayCast = $Rays/Right
-onready var upRay: RayCast = $Rays/Up
-onready var downRay: RayCast = $Rays/Down
+onready var aboveAreaRay: RayCast = $Collisions/AboveArea
+onready var aboveBodyRay: RayCast = $Collisions/AboveBody
+onready var leftRay: RayCast = $Collisions/Left
+onready var rightRay: RayCast = $Collisions/Right
+onready var upRay: RayCast = $Collisions/Up
+onready var downRay: RayCast = $Collisions/Down
 
 var checked: bool = false
 var neighbours: Array = []
 var i: int = 0
 
 signal clicked
+signal found_neighbours
 
 func _ready():
 	current = false
@@ -36,6 +37,12 @@ func find_neighbours():
 	if leftRay.is_colliding():
 		neighbours.push_back(leftRay.get_collider().owner)
 
+func get_character():
+	if aboveBodyRay.is_colliding():
+		return aboveBodyRay.get_collider().owner
+	else:
+		return null
+
 func check_availability():
 	available = true
 	if(aboveBodyRay.is_colliding()):
@@ -43,14 +50,9 @@ func check_availability():
 	if(aboveAreaRay.is_colliding()):
 		available = false
 
+func check_height(height: float, jump: int):
+	return true
+
 func _process(_delta):
-	if not checked:
-		checked = true
-		#check_availability()
 	availabilityIndicator.visible = available
 	currentIndicator.visible = current
-
-func _input(event):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-		print("yowza")
-		emit_signal("clicked", self)
