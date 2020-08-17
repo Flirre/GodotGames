@@ -104,14 +104,12 @@ func map_control_state(_delta: float):
 			set_game_state(GAME_STATE.UNIT_CONTROL)
 	control_tile()
 
-# positions (17, 73, 130)
 func unit_control_state(_delta: float)->void:
 	if Input.is_action_just_pressed("ui_up"):
 		self.current_selection_index -= 1
 	if Input.is_action_just_pressed("ui_down"):
 		self.current_selection_index += 1
 	if Input.is_action_just_pressed("ui_accept"):
-		print(current_selection.name)
 		match current_selection.name:
 			"Move":
 				character_move()
@@ -125,7 +123,7 @@ func character_move():
 	yield(current_character, "active_completed")
 	for tile in tiles.get_children():
 		if tile.available:
-			tiles.enable_tile(int(tile.name))
+			tiles.enable_tile(tile)
 	set_game_state(GAME_STATE.UNIT_MOVE)
 
 func set_current_selection_index(val: int):
@@ -142,8 +140,6 @@ func set_current_selection_index(val: int):
 func unit_move_state(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		if current_tile.available or current_tile == current_character.current_tile:
-			print(current_character.current_tile.global_transform.origin)
-			print(tiles.aStar.get_future_point_path(int(current_character.get_tile().name), int(current_tile.name))) #keep fixing this
 			move_character(delta)
 	control_tile()
 
@@ -151,6 +147,7 @@ func valid_character_choice(character: Character) -> bool:
 	return not character.turn_spent and character.get_parent_spatial() == current_team
 
 func move_character(delta: float) -> void:
+	tiles.check_tile($"Tiles/88")
 	if(current_tile != current_character.current_tile):
 		current_character.move_to(tiles.aStar.get_future_point_path(int(current_character.get_tile().name), int(current_tile.name)), delta)
 		yield(current_character, "move_completed")
@@ -185,6 +182,8 @@ func set_current_tile(tile: Tile):
 	current_tile.current = true
 
 func set_current_character(character: Character):
+	for tile in tiles.get_children():
+		tiles.disable_tile(tile)
 	if current_character:
 		current_character.active = false
 		yield(current_character, "inactive_completed")

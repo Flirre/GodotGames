@@ -36,6 +36,7 @@ func find_neighbours():
 		neighbours.push_back(downRay.get_collider().owner)
 	if leftRay.is_colliding():
 		neighbours.push_back(leftRay.get_collider().owner)
+	emit_signal("found_neighbours")
 
 func get_character():
 	if aboveBodyRay.is_colliding():
@@ -50,8 +51,12 @@ func check_availability():
 	if(aboveAreaRay.is_colliding()):
 		available = false
 
-func check_height(height: float, jump: int):
-	return true
+func check_height(target_height: float, jump: int):
+	var self_height = self.global_transform.origin.y
+	if target_height >= self_height:
+		return (target_height - self_height) <= jump
+	if target_height < self_height:
+		return (self_height - target_height) <= (jump + 1)
 
 func _process(_delta):
 	availabilityIndicator.visible = available

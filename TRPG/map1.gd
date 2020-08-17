@@ -12,13 +12,19 @@ func _ready():
 		for neighbour in tile.neighbours:
 			if(not neighbour.aboveAreaRay.is_colliding()):
 				aStar.connect_points(int(tile.name), int(neighbour.name))
-#	for point in aStar.get_points():
-#		aStar.set_point_disabled(point)
+	for point in aStar.get_points():
+		aStar.set_point_disabled(point)
 
 func disable_tile(tile):
-	aStar.set_point_disabled(tile)
+	aStar.set_point_disabled(int(tile.name))
 
 func enable_tile(tile):
-	aStar.set_point_disabled(tile, false)
+	aStar.set_point_disabled(int(tile.name), false)
 
-# disable all points and activate what is available
+func check_tile(tile):
+	print(aStar.is_point_disabled(int(tile.name)))
+
+func print_all_enabled_points():
+	for point in aStar.get_points():
+		if(not aStar.is_point_disabled(point)):
+			print(point)

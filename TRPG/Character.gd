@@ -42,13 +42,12 @@ func on_active():
 func find_possible_movement(possible_movement: int, jump: int):
 	poss_moves = []
 	for tile in current_tile.neighbours:
-		if not opposing_teams(tile.get_character()):
+		if not opposing_teams(tile.get_character()) and current_tile.check_height(tile.global_transform.origin.y, jump):
 			poss_moves = poss_moves + [tile]
 	for _i in range(possible_movement - 1):
 		for move in poss_moves:
-			var new_moves = move.neighbours
-			for poss_new_move in new_moves:
-				if not poss_new_move in poss_moves and not opposing_teams(poss_new_move.get_character()) and move.check_height(move.global_transform.origin.y, jump):
+			for poss_new_move in move.neighbours:
+				if not poss_new_move in poss_moves and not opposing_teams(poss_new_move.get_character()) and move.check_height(poss_new_move.global_transform.origin.y, jump):
 					poss_moves = poss_moves + [poss_new_move]
 	for tile in poss_moves:
 		tile.check_availability()
