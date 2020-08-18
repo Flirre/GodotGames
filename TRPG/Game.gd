@@ -124,6 +124,9 @@ func character_move():
 	for tile in tiles.get_children():
 		if tile.available:
 			tiles.enable_tile(tile)
+		for neighbour in tile.neighbours:
+			if tile.check_height(neighbour.global_transform.origin.y, current_character.jump):
+				tiles.connect_points(tile, neighbour)
 	set_game_state(GAME_STATE.UNIT_MOVE)
 
 func set_current_selection_index(val: int):
@@ -184,6 +187,8 @@ func set_current_tile(tile: Tile):
 func set_current_character(character: Character):
 	for tile in tiles.get_children():
 		tiles.disable_tile(tile)
+		for neighbour in tile.neighbours:
+				tiles.disconnect_points(tile, neighbour)
 	if current_character:
 		current_character.active = false
 		yield(current_character, "inactive_completed")

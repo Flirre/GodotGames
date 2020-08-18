@@ -9,9 +9,9 @@ func _ready():
 	for tile in get_children():
 		aStar.add_point(int(tile.name), tile.global_transform.origin)
 		tile.find_neighbours()
-		for neighbour in tile.neighbours:
-			if(not neighbour.aboveAreaRay.is_colliding()):
-				aStar.connect_points(int(tile.name), int(neighbour.name))
+#		for neighbour in tile.neighbours:
+#			if(not neighbour.aboveAreaRay.is_colliding()):
+#				aStar.connect_points(int(tile.name), int(neighbour.name))
 	for point in aStar.get_points():
 		aStar.set_point_disabled(point)
 
@@ -28,3 +28,9 @@ func print_all_enabled_points():
 	for point in aStar.get_points():
 		if(not aStar.is_point_disabled(point)):
 			print(point)
+
+func connect_points(tile, tile2):
+	aStar.connect_points(int(tile.name), int(tile2.name))
+
+func disconnect_points(tile, tile2):
+	aStar.disconnect_points(int(tile.name), int(tile2.name))
