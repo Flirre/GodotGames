@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Tile.gd" type="Script" id=1]
 
@@ -23,16 +23,24 @@ albedo_color = Color( 0, 1, 0.976471, 0.309804 )
 material = SubResource( 5 )
 size = Vector2( 1.8, 1.8 )
 
-[sub_resource type="ConvexPolygonShape" id=7]
+[sub_resource type="SpatialMaterial" id=7]
+flags_transparent = true
+albedo_color = Color( 0.74902, 0, 0, 0.705882 )
+
+[sub_resource type="PlaneMesh" id=8]
+material = SubResource( 7 )
+size = Vector2( 1.8, 1.8 )
+
+[sub_resource type="ConvexPolygonShape" id=9]
 points = PoolVector3Array( -1, 0.5, 1, 1, 0.5, -1, 1, 0.5, 1, -1, 0.5, -1, -1, -0.5, 1, 1, -0.5, -1, 1, -0.5, 1, -1, -0.5, -1, 1, 0.5, 1, -1, 0.5, -1, 1, 0.5, -1, -1, 0.5, 1, 1, -0.5, 1, -1, -0.5, -1, 1, -0.5, -1, -1, -0.5, 1, 1, 0.5, 1, -1, -0.5, 1, -1, 0.5, 1, 1, -0.5, 1, 1, 0.5, -1, -1, -0.5, -1, -1, 0.5, -1, 1, -0.5, -1 )
 
-[sub_resource type="SpatialMaterial" id=8]
+[sub_resource type="SpatialMaterial" id=10]
 albedo_color = Color( 0.960784, 0.901961, 0.0235294, 1 )
 
-[sub_resource type="PlaneMesh" id=9]
-material = SubResource( 8 )
+[sub_resource type="PlaneMesh" id=11]
+material = SubResource( 10 )
 
-[sub_resource type="CubeMesh" id=10]
+[sub_resource type="CubeMesh" id=12]
 size = Vector3( 1.8, 0.2, 1.8 )
 
 [node name="Tile" type="Spatial"]
@@ -50,14 +58,21 @@ material/0 = SubResource( 4 )
 
 [node name="AvailabilityIndicator" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.002, 0 )
+visible = false
 mesh = SubResource( 6 )
+material/0 = null
+
+[node name="RangeIndicator" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.003, 0 )
+visible = false
+mesh = SubResource( 8 )
 material/0 = null
 
 [node name="Collisions" type="Area" parent="."]
 
 [node name="CollisionShape" type="CollisionShape" parent="Collisions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-shape = SubResource( 7 )
+shape = SubResource( 9 )
 
 [node name="AboveArea" type="RayCast" parent="Collisions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
@@ -104,11 +119,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01, 0 )
 visible = false
 
 [node name="CSGMesh" type="CSGMesh" parent="CurrentIndicator"]
-mesh = SubResource( 9 )
+mesh = SubResource( 11 )
 
 [node name="CSGMesh2" type="CSGMesh" parent="CurrentIndicator"]
 operation = 2
-mesh = SubResource( 10 )
+mesh = SubResource( 12 )
 
 [node name="CSGBox" type="CSGBox" parent="CurrentIndicator"]
 operation = 2

@@ -24,7 +24,7 @@ var current_units: int
 var turns_spent: int setget handle_turns_spent
 var game_turns := 1 setget handle_new_game_turn
 
-enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE}
+enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE, UNIT_ATTACK}
 var state
 
 func set_game_state(new_state):
@@ -95,7 +95,8 @@ func _process(delta):
 			unit_control_state(delta)
 		GAME_STATE.UNIT_MOVE:
 			unit_move_state(delta)
-		
+		GAME_STATE.UNIT_ATTACK:
+			unit_attack_state(delta)
 
 func map_control_state(_delta: float):
 	if Input.is_action_just_pressed("ui_accept"):
@@ -114,12 +115,13 @@ func unit_control_state(_delta: float)->void:
 			"Move":
 				character_move()
 			"Attack":
-				pass
+				character_attack()
 			"Items":
 				pass
 
 func character_move():
 	current_character.active = true
+	current_character.state = 0
 	yield(current_character, "active_completed")
 	for tile in tiles.get_children():
 		if tile.available:
@@ -128,6 +130,12 @@ func character_move():
 			if tile.check_height(neighbour.global_transform.origin.y, current_character.jump):
 				tiles.connect_points(tile, neighbour)
 	set_game_state(GAME_STATE.UNIT_MOVE)
+
+func character_attack():
+	current_character.active = true
+	current_character.state = 1
+	yield(current_character, "active_completed")
+	set_game_state(GAME_STATE.UNIT_ATTACK)
 
 func set_current_selection_index(val: int):
 	if val < 0:
@@ -144,6 +152,9 @@ func unit_move_state(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		if current_tile.available or current_tile == current_character.current_tile:
 			move_character(delta)
+	control_tile()
+	
+func unit_attack_state(delta):
 	control_tile()
 
 func valid_character_choice(character: Character) -> bool:

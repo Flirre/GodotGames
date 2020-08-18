@@ -4,8 +4,10 @@ class_name Tile
 
 var available: bool
 var current: bool
+var target: bool
 onready var availabilityIndicator: MeshInstance = $AvailabilityIndicator
 onready var currentIndicator: CSGCombiner = $CurrentIndicator
+onready var rangeIndicator: MeshInstance = $RangeIndicator
 onready var aboveAreaRay: RayCast = $Collisions/AboveArea
 onready var aboveBodyRay: RayCast = $Collisions/AboveBody
 onready var leftRay: RayCast = $Collisions/Left
@@ -51,7 +53,12 @@ func check_availability():
 	if(aboveAreaRay.is_colliding()):
 		available = false
 
-func check_height(target_height: float, jump: int):
+func check_targetability():
+	target = true
+	if(aboveAreaRay.is_colliding()):
+		target = false
+
+func check_height(target_height: float, jump: int = 0):
 	var self_height = self.global_transform.origin.y
 	if target_height >= self_height:
 		return (target_height - self_height) <= jump
@@ -61,3 +68,4 @@ func check_height(target_height: float, jump: int):
 func _process(_delta):
 	availabilityIndicator.visible = available
 	currentIndicator.visible = current
+	rangeIndicator.visible = target

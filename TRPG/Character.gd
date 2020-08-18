@@ -3,10 +3,13 @@ extends Spatial
 class_name Character
 
 enum TEAMS {ALLIES, ENEMIES, NEUTRAL}
+enum STATE {MOVE, ATTACK}
 
 export (int) var movement = 2
 export (int) var speed = 5
 export (int) var jump = 2
+export (int) var attack_range = 1
+var state
 
 var active := false
 var current_tile = null
@@ -36,7 +39,11 @@ func get_tile():
 
 func on_active():
 	current_tile = tileRay.get_collider().owner
-	find_possible_movement(movement, jump)
+	match state:
+		STATE.MOVE:
+			find_possible_movement(movement, jump)
+		STATE.ATTACK:
+			show_attack_range(attack_range)
 	emit_signal("active_completed")
 
 func find_possible_movement(possible_movement: int, jump: int):
@@ -51,6 +58,15 @@ func find_possible_movement(possible_movement: int, jump: int):
 					poss_moves = poss_moves + [poss_new_move]
 	for tile in poss_moves:
 		tile.check_availability()
+
+func show_attack_range(attack_range: int):
+	var possible_attacks = []
+	for _i in range(attack_range):
+		for target in current_tile.neighbours:
+			if current_tile.check_height(target.global_transform.origin.y, 1):
+				possible_attacks = possible_attacks + [target]
+	for target in possible_attacks:
+		target.check_targetability()
 
 func exit_active():
 	for tile in poss_moves:
