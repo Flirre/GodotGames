@@ -3,7 +3,7 @@ extends Spatial
 class_name Character
 
 enum TEAMS {ALLIES, ENEMIES, NEUTRAL}
-enum STATE {MOVE, ATTACK}
+enum STATE {CONTROL, MOVE, ATTACK}
 
 export (int) var movement = 2
 export (int) var speed = 5
@@ -18,6 +18,7 @@ onready var tileRay = $CurrentTile
 onready var tween = $Tween
 onready var endSign = $END
 var poss_moves = []
+var possible_attacks = []
 var turn_spent setget set_turn_spent
 
 func set_turn_spent(val: bool):
@@ -44,6 +45,8 @@ func on_active():
 			find_possible_movement(movement, jump)
 		STATE.ATTACK:
 			show_attack_range(attack_range)
+		STATE.CONTROL:
+			reset_character()
 	emit_signal("active_completed")
 
 func find_possible_movement(possible_movement: int, jump: int):
@@ -60,7 +63,7 @@ func find_possible_movement(possible_movement: int, jump: int):
 		tile.check_availability()
 
 func show_attack_range(attack_range: int):
-	var possible_attacks = []
+	possible_attacks = []
 	for _i in range(attack_range):
 		for target in current_tile.neighbours:
 			if current_tile.check_height(target.global_transform.origin.y, 1):
@@ -69,13 +72,22 @@ func show_attack_range(attack_range: int):
 		target.check_targetability()
 
 func exit_active():
-	for tile in poss_moves:
-		tile.available = false
-	current_tile = null
-	poss_moves = []
+	reset_character()
 	self.turn_spent = true
 	emit_signal("inactive_completed")
 	emit_signal("unit_turn_finished")
+
+func reset_character():
+	if not (poss_moves.size() == 0 and possible_attacks.size() == 0) :
+		for tile in poss_moves:
+			tile.available = false
+		for tile in possible_attacks:
+			tile.target = false
+		current_tile = null
+		state = STATE.CONTROL
+		poss_moves = []
+		possible_attacks = []
+		active = false
 
 func opposing_teams(character: Character):
 	if character == null:
