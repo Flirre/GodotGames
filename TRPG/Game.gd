@@ -185,13 +185,20 @@ func move_character(delta: float) -> void:
 
 func control_tile():
 	if Input.is_action_just_pressed("ui_up"):
-		move_to_ray(current_tile.upRay)
+		move_to_tile(current_tile.upNRay, current_tile.upRay)
 	if Input.is_action_just_pressed("ui_right"):
-		move_to_ray(current_tile.rightRay)
+		move_to_tile(current_tile.rightNRay, current_tile.rightRay)
 	if Input.is_action_just_pressed("ui_down"):
-		move_to_ray(current_tile.downRay)
+		move_to_tile(current_tile.downNRay, current_tile.downRay)
 	if Input.is_action_just_pressed("ui_left"):
-		move_to_ray(current_tile.leftRay)
+		move_to_tile(current_tile.leftNRay, current_tile.leftRay)
+
+func move_to_tile(directionRay: RayCast, fallbackRay: RayCast) -> void:
+	if directionRay.is_colliding():
+		if not is_tile_above(directionRay.get_collider().owner):
+			move_to_ray(directionRay)
+			return;
+	move_to_ray(fallbackRay)
 
 func move_to_ray(ray: RayCast):
 	if ray.is_colliding() and not is_tile_above(ray.get_collider().owner):

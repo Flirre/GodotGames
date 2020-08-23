@@ -14,6 +14,11 @@ onready var leftRay: RayCast = $Collisions/Left
 onready var rightRay: RayCast = $Collisions/Right
 onready var upRay: RayCast = $Collisions/Up
 onready var downRay: RayCast = $Collisions/Down
+onready var upNRay: RayCast = $Collisions/UpNeighbour
+onready var downNRay: RayCast = $Collisions/DownNeighbour
+onready var leftNRay: RayCast = $Collisions/LeftNeighbour
+onready var rightNRay: RayCast = $Collisions/RightNeighbour
+const DEBUG_NODE = "70"
 
 var checked: bool = false
 var neighbours: Array = []
@@ -31,14 +36,26 @@ func _ready():
 func find_neighbours():
 	neighbours = []
 	if upRay.is_colliding():
-		neighbours.push_back(upRay.get_collider().owner)
+		add_neighbour(upRay)
 	if rightRay.is_colliding():
-		neighbours.push_back(rightRay.get_collider().owner)
+		add_neighbour(rightRay)
 	if downRay.is_colliding():
-		neighbours.push_back(downRay.get_collider().owner)
+		add_neighbour(downRay)
 	if leftRay.is_colliding():
-		neighbours.push_back(leftRay.get_collider().owner)
+		add_neighbour(leftRay)
+	if upNRay.is_colliding():
+		add_neighbour(upNRay)
+	if rightNRay.is_colliding():
+		add_neighbour(rightNRay)
+	if downNRay.is_colliding():
+		add_neighbour(downRay)
+	if leftNRay.is_colliding():
+		add_neighbour(leftNRay)
 	emit_signal("found_neighbours")
+
+func add_neighbour(neighbourRay: RayCast):
+	if not neighbours.has(neighbourRay.get_collider().owner):
+		neighbours.push_back(neighbourRay.get_collider().owner)
 
 func get_character():
 	if aboveBodyRay.is_colliding():
@@ -48,10 +65,11 @@ func get_character():
 
 func check_availability():
 	available = true
-	if(aboveBodyRay.is_colliding()):
+	if not is_free_above():
 		available = false
-	if(aboveAreaRay.is_colliding()):
-		available = false
+
+func is_free_above():
+	return not (aboveAreaRay.is_colliding() or aboveBodyRay.is_colliding())
 
 func check_targetability():
 	target = true
