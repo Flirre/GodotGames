@@ -102,7 +102,7 @@ func map_control_state(_delta: float):
 	if Input.is_action_just_pressed("ui_accept"):
 		if is_body_above(current_tile) and valid_character_choice(current_tile.get_character()):
 			set_current_character(current_tile.get_character())
-			set_game_state(GAME_STATE.UNIT_CONTROL)
+			character_move()
 	control_tile()
 
 func unit_control_state(_delta: float)->void:
@@ -112,8 +112,11 @@ func unit_control_state(_delta: float)->void:
 		self.current_selection_index += 1
 	if Input.is_action_just_pressed("ui_accept"):
 		match current_selection.name:
-			"Move":
-				character_move()
+			"Wait":
+				current_character.exit_active()
+				current_character = null
+#				yield(get_tree().create_timer(1), "timeout")
+				set_game_state(GAME_STATE.MAP_CONTROL)
 			"Attack":
 				character_attack()
 			"Items":
@@ -163,7 +166,7 @@ func unit_attack_state(_delta):
 
 func attack(character: Character):
 	if not character == current_character:	
-		print('attacked ', character.name)
+		print(current_character.name, ' attacked ', character.name)
 		current_character.active = false
 		current_character = null
 		yield(get_tree().create_timer(1), "timeout")
@@ -179,9 +182,9 @@ func move_character(delta: float) -> void:
 	if(current_tile != current_character.current_tile):
 		current_character.move_to(tiles.aStar.get_future_point_path(int(current_character.get_tile().name), int(current_tile.name)), delta)
 		yield(current_character, "move_completed")
-	current_character.active = false
-	current_character = null
-	set_game_state(GAME_STATE.MAP_CONTROL)
+	set_game_state(GAME_STATE.UNIT_CONTROL)
+	current_character.state = 0
+	current_character.current_tile = null
 
 func control_tile():
 	if Input.is_action_just_pressed("ui_up"):
