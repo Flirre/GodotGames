@@ -24,7 +24,7 @@ var current_units: int
 var turns_spent: int setget handle_turns_spent
 var game_turns := 1 setget handle_new_game_turn
 
-enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE, UNIT_ATTACK}
+enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE, UNIT_ATTACK, UNIT_ANIMATING}
 var state
 
 func set_game_state(new_state):
@@ -115,7 +115,6 @@ func unit_control_state(_delta: float)->void:
 			"Wait":
 				current_character.exit_active()
 				current_character = null
-#				yield(get_tree().create_timer(1), "timeout")
 				set_game_state(GAME_STATE.MAP_CONTROL)
 			"Attack":
 				character_attack()
@@ -180,6 +179,7 @@ func valid_character_choice(character: Character) -> bool:
 
 func move_character(delta: float) -> void:
 	if(current_tile != current_character.current_tile):
+		set_game_state(GAME_STATE.UNIT_ANIMATING)
 		current_character.move_to(tiles.aStar.get_future_point_path(int(current_character.get_tile().name), int(current_tile.name)), delta)
 		yield(current_character, "move_completed")
 	set_game_state(GAME_STATE.UNIT_CONTROL)
