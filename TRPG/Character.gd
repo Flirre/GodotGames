@@ -10,6 +10,9 @@ export (int) var speed = 5
 export (int) var jump = 2
 export (int) var attack_range = 1
 var state
+var character_class = "Warrior"
+var boss = false
+onready var stats = $Stats
 
 var active := false
 var current_tile = null
@@ -30,8 +33,10 @@ signal inactive_completed
 signal movement_completed
 signal move_completed
 signal unit_turn_finished
+signal die
 
 func _ready():
+	stats.connect("no_health", self, "die")
 	if active:
 		on_active()
 
@@ -77,6 +82,10 @@ func exit_active():
 	emit_signal("inactive_completed")
 	emit_signal("unit_turn_finished")
 
+func attack(target: Character) -> void:
+	print(self.name, ' attacked ', target.name)
+	target.stats.health -= self.stats.strength
+
 func reset_character():
 	if not (poss_moves.size() == 0 and possible_attacks.size() == 0) :
 		for tile in poss_moves:
@@ -109,3 +118,20 @@ func _process(_delta):
 
 func reset_status() -> void:
 	self.turn_spent = false
+
+func die() -> void:
+	emit_signal("die", self)
+	get_parent().remove_child(self)
+
+func gain_experience(target) -> void:
+	var base_experience = 200
+	var boss_factor := 1
+	var level = self.stats.level
+	var target_level = target.stats.level
+	if target.boss:
+		boss_factor = 2
+	if level > target.stats.level:
+		base_experience = int(base_experience / (level - target_level))
+	if level < target_level:
+		base_experience = int(base_experience * (target_level - level))
+	self.stats.experience_points = base_experience * boss_factor

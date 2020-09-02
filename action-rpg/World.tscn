@@ -528,12 +528,12 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 0/shapes = [  ]
 0/z_index = 0
 
-[sub_resource type="ShaderMaterial" id=57]
+[sub_resource type="ShaderMaterial" id=55]
 shader = ExtResource( 12 )
 shader_param/color = Vector3( 0.01, 0.2, 0.01 )
 shader_param/OCTAVES = 5
 
-[sub_resource type="ShaderMaterial" id=55]
+[sub_resource type="ShaderMaterial" id=56]
 shader = ExtResource( 11 )
 shader_param/scanline_count = 320.0
 shader_param/crt_strength = 3.0
@@ -1515,7 +1515,7 @@ position = Vector2( 244, 158 )
 position = Vector2( 229, 177 )
 
 [node name="fog_shader" type="ColorRect" parent="."]
-material = SubResource( 57 )
+material = SubResource( 55 )
 margin_left = -872.0
 margin_top = -686.0
 margin_right = 1192.0
@@ -1533,7 +1533,7 @@ margin_right = 66.0
 margin_bottom = 16.0
 
 [node name="CRT_Shader" type="ColorRect" parent="CanvasLayer"]
-material = SubResource( 55 )
+material = SubResource( 56 )
 margin_right = 320.0
 margin_bottom = 180.0
 __meta__ = {

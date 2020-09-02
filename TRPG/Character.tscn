@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/mr-moustache.png" type="Texture" id=1]
 [ext_resource path="res://Character.gd" type="Script" id=2]
 [ext_resource path="res://assets/MediumShadow.png" type="Texture" id=3]
 [ext_resource path="res://assets/END.png" type="Texture" id=4]
+[ext_resource path="res://UnitStats.tscn" type="PackedScene" id=5]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -48,3 +49,6 @@ pixel_size = 0.05
 billboard = 1
 transparent = false
 texture = ExtResource( 4 )
+
+[node name="Stats" parent="." instance=ExtResource( 5 )]
+max_health = 5

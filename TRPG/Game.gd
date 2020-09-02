@@ -27,6 +27,8 @@ var game_turns := 1 setget handle_new_game_turn
 enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE, UNIT_ATTACK, UNIT_ANIMATING}
 var state
 
+var character_signals = [{"sig": "unit_turn_finished", "fun": "handle_unit_turn_finished"}, {"sig": "die", "fun": "handle_unit_death"}]
+
 func set_game_state(new_state):
 	if new_state == GAME_STATE.UNIT_CONTROL:
 		unitActions.visible = true
@@ -47,10 +49,11 @@ func _ready():
 	set_game_state(GAME_STATE.MAP_CONTROL)
 
 func setup_unit_signals():
-	for ally in allies.get_children():
-		ally.connect("unit_turn_finished", self, "handle_unit_turn_finished")
-	for enemy in enemies.get_children():
-		enemy.connect("unit_turn_finished", self, "handle_unit_turn_finished")
+	for char_signal in character_signals:
+		for ally in allies.get_children():
+			ally.connect(char_signal.sig, self, char_signal.fun)
+		for enemy in enemies.get_children():
+			enemy.connect(char_signal.sig, self, char_signal.fun)
 
 func handle_unit_turn_finished():
 	self.turns_spent += 1
@@ -58,6 +61,7 @@ func handle_unit_turn_finished():
 		switch_team()
 
 func switch_team():
+	var new_char
 	yield(get_tree().create_timer(1), "timeout")
 	for unit in current_team.get_children():
 		unit.reset_status()
@@ -68,7 +72,9 @@ func switch_team():
 		self.game_turns += 1
 	current_units = current_team.get_child_count()
 	self.turns_spent = 0
-	self.current_tile = current_team.get_child(0).get_tile()
+	new_char = current_team.get_child(0)
+	if new_char:
+		self.current_tile = new_char.get_tile()
 
 func set_current_team(team: Object) -> void:
 	current_team = team
@@ -165,7 +171,7 @@ func unit_attack_state(_delta):
 
 func attack(character: Character):
 	if not character == current_character:	
-		print(current_character.name, ' attacked ', character.name)
+		current_character.attack(character)
 		current_character.active = false
 		current_character = null
 		yield(get_tree().create_timer(1), "timeout")
@@ -240,3 +246,11 @@ func show_controls():
 
 func hide_controls():
 	unitActions.visible = false
+
+func handle_unit_death(unit: Character):
+	current_character.gain_experience(unit)
+	yield(get_tree().create_timer(0.1), "timeout") # TODO: Maybe change for something robust?
+	if allies.get_child_count() == 0:
+		print('no you lost')
+	if enemies.get_child_count() == 0:
+		print('conglaturations')
