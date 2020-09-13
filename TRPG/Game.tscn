@@ -153,7 +153,7 @@ movement = 3
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5.3, -8 )
 team = 1
 
-[node name="CharSprite" parent="Enemies/Character3" index="1"]
+[node name="CharSprite" parent="Enemies/Character3" index="0"]
 modulate = Color( 0.901961, 0.505882, 0.505882, 1 )
 texture = ExtResource( 4 )
 

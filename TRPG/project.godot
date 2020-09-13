@@ -96,7 +96,11 @@ ui_down={
  ]
 }
 
+[layer_names]
+
+3d_render/layer_1="environment"
+3d_render/layer_2="character"
+
 [rendering]
 
-quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"
