@@ -8,15 +8,15 @@ var current_team: Object
 var current_selection
 var current_selection_index: int setget set_current_selection_index
 
-onready var allies := $Allies
-onready var enemies := $Enemies
+onready var allies := $World/Allies
+onready var enemies := $World/Enemies
 onready var camera := $Camera
 onready var teamLabel := $Camera/VBoxContainer/TeamLabel
 onready var unitsLeftLabel := $Camera/VBoxContainer/UnitsLeft
 onready var CurrentTurnLabel := $Camera/VBoxContainer/CurrentTurn
 onready var unitActions := $Camera/UnitActions/VBoxContainer
 onready var selectionArrow := $Camera/UnitActions/SelectionArrow
-onready var tiles := $Tiles
+onready var tiles := $World/Tiles
 
 var i: int
 var moving := true
@@ -93,7 +93,8 @@ func handle_new_game_turn(val: int) -> void:
 
 func _process(delta):
 	if moving and current_tile:
-		camera.move_to(current_tile.global_transform.origin, delta)
+		#camera.move_to(current_tile.global_transform.origin, delta)
+		pass
 	match state:
 		GAME_STATE.MAP_CONTROL:
 			map_control_state(delta)
@@ -238,7 +239,7 @@ func set_current_character(character: Character):
 
 func _unhandled_input(event):
 	if event is InputEventKey:
-		if event.pressed and (event.scancode == KEY_Q):
+		if event.pressed and (event.scancode == KEY_ESCAPE):
 			get_tree().quit()
 
 func show_controls():

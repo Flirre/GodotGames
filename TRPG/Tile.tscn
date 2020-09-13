@@ -78,6 +78,7 @@ shape = SubResource( 9 )
 
 [node name="AboveArea" type="RayCast" parent="Collisions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
+visible = false
 enabled = true
 cast_to = Vector3( 0, 3.5, 0 )
 collide_with_areas = true
@@ -91,6 +92,7 @@ cast_to = Vector3( 0, 3, 0 )
 
 [node name="Up" type="RayCast" parent="Collisions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 13, 0 )
+visible = false
 enabled = true
 cast_to = Vector3( 0, -25, 0 )
 collide_with_areas = true
@@ -122,6 +124,7 @@ collide_with_bodies = false
 
 [node name="UpNeighbour" type="RayCast" parent="Collisions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+visible = false
 enabled = true
 cast_to = Vector3( 2, 0, 0 )
 collide_with_areas = true
@@ -129,6 +132,7 @@ collide_with_bodies = false
 
 [node name="DownNeighbour" type="RayCast" parent="Collisions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+visible = false
 enabled = true
 cast_to = Vector3( -2, 0, 0 )
 collide_with_areas = true
@@ -136,6 +140,7 @@ collide_with_bodies = false
 
 [node name="RightNeighbour" type="RayCast" parent="Collisions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+visible = false
 enabled = true
 cast_to = Vector3( 0, 0, 2 )
 collide_with_areas = true
@@ -143,6 +148,7 @@ collide_with_bodies = false
 
 [node name="LeftNeighbour" type="RayCast" parent="Collisions"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+visible = false
 enabled = true
 cast_to = Vector3( 0, 0, -2 )
 collide_with_areas = true
