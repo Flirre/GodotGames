@@ -23,9 +23,11 @@ var moving := true
 var current_units: int
 var turns_spent: int setget handle_turns_spent
 var game_turns := 1 setget handle_new_game_turn
+var world_rotation = 0
 
-enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE, UNIT_ATTACK, UNIT_ANIMATING}
+enum GAME_STATE {MAP_CONTROL, UNIT_CONTROL, UNIT_MOVE, UNIT_ATTACK, UNIT_ANIMATING, PAUSED}
 var state
+var prev_state
 
 var character_signals = [{"sig": "unit_turn_finished", "fun": "handle_unit_turn_finished"}, {"sig": "die", "fun": "handle_unit_death"}]
 
@@ -93,8 +95,7 @@ func handle_new_game_turn(val: int) -> void:
 
 func _process(delta):
 	if moving and current_tile:
-		#camera.move_to(current_tile.global_transform.origin, delta)
-		pass
+		camera.move_to(current_tile.global_transform.origin, delta)
 	match state:
 		GAME_STATE.MAP_CONTROL:
 			map_control_state(delta)
@@ -194,15 +195,26 @@ func move_character(delta: float) -> void:
 	current_character.current_tile = null
 
 func control_tile():
-	if Input.is_action_just_pressed("ui_up"):
-		move_to_tile(current_tile.upNRay, current_tile.upRay)
-	if Input.is_action_just_pressed("ui_right"):
-		move_to_tile(current_tile.rightNRay, current_tile.rightRay)
-	if Input.is_action_just_pressed("ui_down"):
-		move_to_tile(current_tile.downNRay, current_tile.downRay)
-	if Input.is_action_just_pressed("ui_left"):
-		move_to_tile(current_tile.leftNRay, current_tile.leftRay)
+	match world_rotation:
+		0:
+			tile_directions(current_tile.upNRay, current_tile.upRay, current_tile.rightNRay, current_tile.rightRay, current_tile.downNRay, current_tile.downRay, current_tile.leftNRay, current_tile.leftRay)
+		1:
+			tile_directions(current_tile.rightNRay, current_tile.rightRay, current_tile.downNRay, current_tile.downRay, current_tile.leftNRay, current_tile.leftRay, current_tile.upNRay, current_tile.upRay)
+		2:
+			tile_directions(current_tile.downNRay, current_tile.downRay, current_tile.leftNRay, current_tile.leftRay, current_tile.upNRay, current_tile.upRay, current_tile.rightNRay, current_tile.rightRay)
+		3:
+			tile_directions(current_tile.leftNRay, current_tile.leftRay, current_tile.upNRay, current_tile.upRay, current_tile.rightNRay, current_tile.rightRay, current_tile.downNRay, current_tile.downRay)
 
+func tile_directions(upRay, upNRay, rightRay, rightNRay, downRay, downNRay, leftRay, leftNRay):
+			if Input.is_action_just_pressed("ui_up"):
+				move_to_tile(upNRay, upRay)
+			if Input.is_action_just_pressed("ui_right"):
+				move_to_tile(rightNRay, rightRay)
+			if Input.is_action_just_pressed("ui_down"):
+				move_to_tile(downNRay, downRay)
+			if Input.is_action_just_pressed("ui_left"):
+				move_to_tile(leftNRay, leftRay)
+				
 func move_to_tile(directionRay: RayCast, fallbackRay: RayCast) -> void:
 	if directionRay.is_colliding():
 		if not is_tile_above(directionRay.get_collider().owner):
@@ -255,3 +267,13 @@ func handle_unit_death(unit: Character):
 		print('no you lost')
 	if enemies.get_child_count() == 0:
 		print('conglaturations')
+
+
+func _on_Camera_rotate_world(new_rotation):
+	world_rotation = new_rotation
+	state = prev_state
+
+
+func _on_Camera_start_rotate_world():
+	prev_state = state
+	state = GAME_STATE.PAUSED

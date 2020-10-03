@@ -157,4 +157,11 @@ movement = 3
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 5.3, -8 )
 team = 1
 
+[node name="CharSprite" parent="World/Enemies/Character3" index="0"]
+modulate = Color( 0.46875, 0.0787354, 0.0878763, 1 )
+
 [node name="Tween" type="Tween" parent="World"]
+[connection signal="rotate_world" from="Camera" to="." method="_on_Camera_rotate_world"]
+[connection signal="start_rotate_world" from="Camera" to="." method="_on_Camera_start_rotate_world"]
+
+[editable path="World/Enemies/Character3"]
