@@ -40,6 +40,7 @@ collide_with_bodies = false
 [node name="END" type="Sprite3D" parent="."]
 transform = Transform( 0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, 0.258819, 0, 2.5, 0 )
 visible = false
+cast_shadow = 0
 pixel_size = 0.05
 billboard = 1
 transparent = false

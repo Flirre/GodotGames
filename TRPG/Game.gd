@@ -11,11 +11,11 @@ var current_selection_index: int setget set_current_selection_index
 onready var allies := $World/Allies
 onready var enemies := $World/Enemies
 onready var camera := $Camera
-onready var teamLabel := $Camera/VBoxContainer/TeamLabel
-onready var unitsLeftLabel := $Camera/VBoxContainer/UnitsLeft
-onready var CurrentTurnLabel := $Camera/VBoxContainer/CurrentTurn
-onready var unitActions := $Camera/UnitActions/VBoxContainer
-onready var selectionArrow := $Camera/UnitActions/SelectionArrow
+onready var teamLabel := $Camera/UI/TurnStats/TeamLabel
+onready var unitsLeftLabel := $Camera/UI/TurnStats/UnitsLeft
+onready var CurrentTurnLabel := $Camera/UI/TurnStats/CurrentTurn
+onready var unitActions := $Camera/UI/UnitActions/Actions
+onready var selectionArrows := $Camera/UI/SelectionArrows
 onready var tiles := $World/Tiles
 
 var i: int
@@ -34,10 +34,10 @@ var character_signals = [{"sig": "unit_turn_finished", "fun": "handle_unit_turn_
 func set_game_state(new_state):
 	if new_state == GAME_STATE.UNIT_CONTROL:
 		unitActions.visible = true
-		selectionArrow.visible = true
+		selectionArrows.visible = true
 	else:
 		unitActions.visible = false
-		selectionArrow.visible = false
+		selectionArrows.visible = false
 	state = new_state
 
 func _ready():
@@ -119,6 +119,7 @@ func unit_control_state(_delta: float)->void:
 	if Input.is_action_just_pressed("ui_down"):
 		self.current_selection_index += 1
 	if Input.is_action_just_pressed("ui_accept"):
+		print(current_selection.name)
 		match current_selection.name:
 			"Wait":
 				current_character.exit_active()
@@ -149,15 +150,15 @@ func character_attack():
 	set_game_state(GAME_STATE.UNIT_ATTACK)
 
 func set_current_selection_index(val: int):
+	selectionArrows.get_child(current_selection_index).visible = false
 	if val < 0:
 		current_selection_index = unitActions.get_child_count() - 1
-	elif val >= unitActions.get_child_count():
+	elif val >= unitActions.get_child_count(): 
 		current_selection_index = 0
 	else:
 		current_selection_index = val
 	current_selection = unitActions.get_child(current_selection_index)
-	selectionArrow.set_global_position(Vector2(selectionArrow.rect_global_position.x, current_selection.get_global_rect().position.y + 17) )
-	
+	selectionArrows.get_child(current_selection_index).visible = true
 
 func unit_move_state(delta):
 	if Input.is_action_just_pressed("ui_accept"):
@@ -267,7 +268,6 @@ func handle_unit_death(unit: Character):
 		print('no you lost')
 	if enemies.get_child_count() == 0:
 		print('conglaturations')
-
 
 func _on_Camera_rotate_world(new_rotation):
 	world_rotation = new_rotation
