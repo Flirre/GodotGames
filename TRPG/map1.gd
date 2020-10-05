@@ -3,6 +3,7 @@ extends Spatial
 var tiles
 var aStar: NE_AStar = preload("res://Non-Euclidian-astar.gd").new()
 
+
 func _ready():
 	yield(get_tree().create_timer(0.00000001), "timeout")
 	aStar.reserve_space(self.get_child_count())
@@ -12,22 +13,28 @@ func _ready():
 	for point in aStar.get_points():
 		aStar.set_point_disabled(point)
 
+
 func disable_tile(tile):
 	aStar.set_point_disabled(int(tile.name))
+
 
 func enable_tile(tile):
 	aStar.set_point_disabled(int(tile.name), false)
 
+
 func check_tile(tile):
 	print(aStar.is_point_disabled(int(tile.name)))
 
+
 func print_all_enabled_points():
 	for point in aStar.get_points():
-		if(not aStar.is_point_disabled(point)):
+		if not aStar.is_point_disabled(point):
 			print(point)
+
 
 func connect_points(tile, tile2):
 	aStar.connect_points(int(tile.name), int(tile2.name))
+
 
 func disconnect_points(tile, tile2):
 	aStar.disconnect_points(int(tile.name), int(tile2.name))

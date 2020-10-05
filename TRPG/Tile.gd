@@ -27,11 +27,13 @@ var i: int = 0
 signal clicked
 signal found_neighbours
 
+
 func _ready():
 	current = false
 	available = false
 	checked = false
 	neighbours = []
+
 
 func find_neighbours():
 	neighbours = []
@@ -53,9 +55,11 @@ func find_neighbours():
 		add_neighbour(leftNRay)
 	emit_signal("found_neighbours")
 
+
 func add_neighbour(neighbourRay: RayCast):
 	if not neighbours.has(neighbourRay.get_collider().owner):
 		neighbours.push_back(neighbourRay.get_collider().owner)
+
 
 func get_character():
 	if aboveBodyRay.is_colliding():
@@ -63,18 +67,22 @@ func get_character():
 	else:
 		return null
 
+
 func check_availability():
 	available = true
 	if not is_free_above():
 		available = false
 
+
 func is_free_above():
 	return not (aboveAreaRay.is_colliding() or aboveBodyRay.is_colliding())
 
+
 func check_targetability():
 	target = true
-	if(aboveAreaRay.is_colliding()):
+	if aboveAreaRay.is_colliding():
 		target = false
+
 
 func check_height(target_height: float, jump: int = 0):
 	var self_height = self.global_transform.origin.y
@@ -82,6 +90,7 @@ func check_height(target_height: float, jump: int = 0):
 		return (target_height - self_height) <= jump
 	if target_height < self_height:
 		return (self_height - target_height) <= (jump + 1)
+
 
 func _process(_delta):
 	availabilityIndicator.visible = available

@@ -2,8 +2,8 @@ extends Spatial
 
 class_name Character
 
-enum TEAMS {ALLIES, ENEMIES, NEUTRAL}
-enum STATE {CONTROL, MOVE, ATTACK}
+enum TEAMS { ALLIES, ENEMIES, NEUTRAL }
+enum STATE { CONTROL, MOVE, ATTACK }
 
 export (int) var movement = 2
 export (int) var speed = 5
@@ -24,9 +24,11 @@ var poss_moves = []
 var possible_attacks = []
 var turn_spent setget set_turn_spent
 
+
 func set_turn_spent(val: bool):
 	endSign.visible = val
 	turn_spent = val
+
 
 signal active_completed
 signal inactive_completed
@@ -35,13 +37,16 @@ signal move_completed
 signal unit_turn_finished
 signal die
 
+
 func _ready():
 	stats.connect("no_health", self, "die")
 	if active:
 		on_active()
 
+
 func get_tile():
 	return tileRay.get_collider().owner
+
 
 func on_active():
 	current_tile = tileRay.get_collider().owner
@@ -54,18 +59,27 @@ func on_active():
 			reset_character()
 	emit_signal("active_completed")
 
+
 func find_possible_movement(possible_movement: int, jump: int):
 	poss_moves = []
 	for tile in current_tile.neighbours:
-		if not opposing_teams(tile.get_character()) and current_tile.check_height(tile.global_transform.origin.y, jump):
+		if (
+			not opposing_teams(tile.get_character())
+			and current_tile.check_height(tile.global_transform.origin.y, jump)
+		):
 			poss_moves = poss_moves + [tile]
 	for _i in range(possible_movement - 1):
 		for move in poss_moves:
 			for poss_new_move in move.neighbours:
-				if not poss_new_move in poss_moves and not opposing_teams(poss_new_move.get_character()) and move.check_height(poss_new_move.global_transform.origin.y, jump):
+				if (
+					not poss_new_move in poss_moves
+					and not opposing_teams(poss_new_move.get_character())
+					and move.check_height(poss_new_move.global_transform.origin.y, jump)
+				):
 					poss_moves = poss_moves + [poss_new_move]
 	for tile in poss_moves:
 		tile.check_availability()
+
 
 func show_attack_range(attack_range: int):
 	possible_attacks = []
@@ -76,18 +90,21 @@ func show_attack_range(attack_range: int):
 	for target in possible_attacks:
 		target.check_targetability()
 
+
 func exit_active():
 	reset_character()
 	self.turn_spent = true
 	emit_signal("inactive_completed")
 	emit_signal("unit_turn_finished")
 
+
 func attack(target: Character) -> void:
 	print(self.name, ' attacked ', target.name)
 	target.stats.health -= self.stats.strength
 
+
 func reset_character():
-	if not (poss_moves.size() == 0 and possible_attacks.size() == 0) :
+	if not (poss_moves.size() == 0 and possible_attacks.size() == 0):
 		for tile in poss_moves:
 			tile.available = false
 		for tile in possible_attacks:
@@ -98,17 +115,28 @@ func reset_character():
 		possible_attacks = []
 		active = false
 
+
 func opposing_teams(character: Character):
 	if character == null:
 		return false
 	return team != character.team
 
+
 func move_to(path: Array, _delta: float):
 	for tile in path:
-		tween.interpolate_property(self, "translation", self.transform.origin, tile + Vector3(0, 2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.interpolate_property(
+			self,
+			"translation",
+			self.transform.origin,
+			tile + Vector3(0, 2, 0),
+			1,
+			Tween.TRANS_LINEAR,
+			Tween.EASE_IN_OUT
+		)
 		tween.start()
 		yield(tween, "tween_completed")
 	emit_signal("move_completed")
+
 
 func _process(_delta):
 	if active and current_tile == null:
@@ -116,12 +144,15 @@ func _process(_delta):
 	if not active and not current_tile == null:
 		exit_active()
 
+
 func reset_status() -> void:
 	self.turn_spent = false
+
 
 func die() -> void:
 	emit_signal("die", self)
 	get_parent().remove_child(self)
+
 
 func gain_experience(target) -> void:
 	var base_experience = 200
