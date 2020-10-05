@@ -231,47 +231,47 @@ func control_tile():
 	match world_rotation:
 		0:
 			tile_directions(
-				current_tile.upNRay,
 				current_tile.upRay,
-				current_tile.rightNRay,
+				current_tile.upNRay,
 				current_tile.rightRay,
-				current_tile.downNRay,
+				current_tile.rightNRay,
 				current_tile.downRay,
-				current_tile.leftNRay,
-				current_tile.leftRay
+				current_tile.downNRay,
+				current_tile.leftRay,
+				current_tile.leftNRay
 			)
 		1:
 			tile_directions(
-				current_tile.rightNRay,
 				current_tile.rightRay,
-				current_tile.downNRay,
+				current_tile.rightNRay,
 				current_tile.downRay,
-				current_tile.leftNRay,
+				current_tile.downNRay,
 				current_tile.leftRay,
-				current_tile.upNRay,
-				current_tile.upRay
+				current_tile.leftNRay,
+				current_tile.upRay,
+				current_tile.upNRay
 			)
 		2:
 			tile_directions(
-				current_tile.downNRay,
 				current_tile.downRay,
-				current_tile.leftNRay,
+				current_tile.downNRay,
 				current_tile.leftRay,
-				current_tile.upNRay,
+				current_tile.leftNRay,
 				current_tile.upRay,
-				current_tile.rightNRay,
-				current_tile.rightRay
+				current_tile.upNRay,
+				current_tile.rightRay,
+				current_tile.rightNRay
 			)
 		3:
 			tile_directions(
-				current_tile.leftNRay,
 				current_tile.leftRay,
-				current_tile.upNRay,
+				current_tile.leftNRay,
 				current_tile.upRay,
-				current_tile.rightNRay,
+				current_tile.upNRay,
 				current_tile.rightRay,
-				current_tile.downNRay,
-				current_tile.downRay
+				current_tile.rightNRay,
+				current_tile.downRay,
+				current_tile.downNRay
 			)
 
 
