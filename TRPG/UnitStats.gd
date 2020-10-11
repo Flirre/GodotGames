@@ -44,11 +44,12 @@ func set_max_health(new_max_health):
 	self.health = min(health, max_health)
 	emit_signal("max_health_changed", new_max_health)
 
+
 func set_max_mana(new_max_mana):
 	max_mana = new_max_mana
 	self.mana = min(mana, max_mana)
 	emit_signal("max_mana_changed", new_max_mana)
-	
+
 
 func set_exp(experience):
 	experience_points = experience

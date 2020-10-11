@@ -326,15 +326,16 @@ func set_current_tile(tile: Tile):
 	else:
 		portrait.visible = false
 
+
 func update_portrait():
-		var character = current_tile.get_character()
-		var character_stats = current_tile.get_character().stats
-		portrait_name.text = character_stats.char_name
-		portrait_class.text = character_stats.job
-		portrait_health_bar.max_value = character_stats.max_health
-		portrait_health_bar.value = character_stats.health
-		portrait_mana_bar.max_value = character_stats.max_health
-		portrait.visible = true
+	var character_stats = current_tile.get_character().stats
+	portrait_name.text = character_stats.char_name
+	portrait_class.text = character_stats.job
+	portrait_health_bar.max_value = character_stats.max_health
+	portrait_health_bar.value = character_stats.health
+	portrait_mana_bar.max_value = character_stats.max_health
+	portrait.visible = true
+
 
 func set_current_character(character: Character):
 	for tile in tiles.get_children():
