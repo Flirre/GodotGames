@@ -1,14 +1,18 @@
 extends Node
 
 export (int) var max_health = 1 setget set_max_health
+export (int) var max_mana = 1 setget set_max_mana
+
+export var char_name := "default_name"
+export var job = "Fighter"
 
 var health = max_health setget set_health
-var magic_points = 10
+var mana = 10
 
 var level = 1
 var experience_points = 0 setget set_exp
 
-var strength = 10
+var strength = 1
 var intelligence = 10
 
 var wisdom = 10
@@ -24,6 +28,9 @@ signal no_health
 signal health_changed(new_health)
 signal max_health_changed(new_max_health)
 
+signal mana_changed(new_mana)
+signal max_mana_changed(new_max_mana)
+
 
 func set_health(new_health):
 	health = new_health
@@ -35,7 +42,13 @@ func set_health(new_health):
 func set_max_health(new_max_health):
 	max_health = new_max_health
 	self.health = min(health, max_health)
-	emit_signal("max_health_changed", max_health)
+	emit_signal("max_health_changed", new_max_health)
+
+
+func set_max_mana(new_max_mana):
+	max_mana = new_max_mana
+	self.mana = min(mana, max_mana)
+	emit_signal("max_mana_changed", new_max_mana)
 
 
 func set_exp(experience):

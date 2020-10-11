@@ -18,6 +18,13 @@ onready var unitActions := $Camera/UI/UnitActions/Actions
 onready var selectionArrows := $Camera/UI/SelectionArrows
 onready var tiles := $World/Tiles
 
+onready var portrait := $Camera/UI/Portrait
+onready var portrait_name := $Camera/UI/Portrait/Background/Name
+onready var portrait_class := $Camera/UI/Portrait/Background/Class
+onready var portrait_image := $Camera/UI/Portrait/Background/Image
+onready var portrait_health_bar := $Camera/UI/Portrait/Background/HealthBar
+onready var portrait_mana_bar := $Camera/UI/Portrait/Background/ManaBar
+
 var i: int
 var moving := true
 var current_units: int
@@ -109,6 +116,8 @@ func handle_new_game_turn(val: int) -> void:
 func _process(delta):
 	if moving and current_tile:
 		camera.move_to(current_tile.global_transform.origin, delta)
+	if current_tile and is_body_above(current_tile):
+		update_portrait()
 	match state:
 		GAME_STATE.MAP_CONTROL:
 			map_control_state(delta)
@@ -312,6 +321,20 @@ func set_current_tile(tile: Tile):
 		current_tile.current = false
 	current_tile = tile
 	current_tile.current = true
+	if is_body_above(tile):
+		update_portrait()
+	else:
+		portrait.visible = false
+
+
+func update_portrait():
+	var character_stats = current_tile.get_character().stats
+	portrait_name.text = character_stats.char_name
+	portrait_class.text = character_stats.job
+	portrait_health_bar.max_value = character_stats.max_health
+	portrait_health_bar.value = character_stats.health
+	portrait_mana_bar.max_value = character_stats.max_health
+	portrait.visible = true
 
 
 func set_current_character(character: Character):
