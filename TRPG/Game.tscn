@@ -307,14 +307,14 @@ movement = 5
 jump = 1
 
 [node name="Stats" parent="World/Allies/Character" index="5"]
-char_name = "YEET"
+char_name = "Sir Player"
 
 [node name="Character2" parent="World/Allies" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.3, 0 )
 movement = 3
 
 [node name="Stats" parent="World/Allies/Character2" index="5"]
-char_name = "YOOT"
+char_name = "Squire Playable"
 
 [node name="Enemies" type="Spatial" parent="World"]
 
@@ -324,6 +324,10 @@ team = 1
 
 [node name="CharSprite" parent="World/Enemies/Character3" index="0"]
 modulate = Color( 0.46875, 0.0787354, 0.0878763, 1 )
+
+[node name="Stats" parent="World/Enemies/Character3" index="5"]
+char_name = "Evil Boss"
+job = "Red Knight"
 
 [node name="Tween" type="Tween" parent="World"]
 [connection signal="rotate_world" from="Camera" to="." method="_on_Camera_rotate_world"]
